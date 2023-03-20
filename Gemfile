@@ -16,13 +16,18 @@ gem "puma", "~> 5.0"
 gem "tzinfo-data", platforms: %i[ mingw mswin x64_mingw jruby ]
 
 # Use Rack CORS for handling Cross-Origin Resource Sharing (CORS), making cross-origin AJAX possible
-# gem "rack-cors"
+gem "rack-cors"
 
 # Use Active Model has_secure_password
 gem 'bcrypt', '~> 3.1.7'
 
 # Use Active Model serializers
 gem "active_model_serializers", "~> 0.10.13"
+
+# external api integration
+gem 'dotenv-rails'
+gem 'rest-client'
+gem 'json'
 
 group :development, :test do
   # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem
