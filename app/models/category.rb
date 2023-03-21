@@ -5,4 +5,16 @@ class Category < ApplicationRecord
 
     validates :flex_id, uniqueness: true
 
+    scope :all_subcategories, ->(name) { where("path LIKE :prefix", prefix: "#{name}%") }
+
+    def self.filter(name)
+        items = []
+        all_subcategories(name).each do |category|
+            category.items.each do |item|
+                items << item
+            end
+        end
+        return items
+    end
+
 end

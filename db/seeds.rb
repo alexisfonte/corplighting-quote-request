@@ -61,15 +61,22 @@ def item_dataset
 
         puts "Creating items..."
             all_items.uniq.each do |item|
-                image = RestClient.get("https://cla.flexrentalsolutions.com/f5/api/inventory-model/#{item['id']}/imageUrl", { 'X-Auth-Token' => api_key })
-                Item.create!(
-                    name: item['name'], 
-                    size: item['size'],
-                    description: item['narrativeDescription'],
-                    category_id: Category.find_by(name: item['groupName']).id,
-                    flex_id: item['id'],
-                    image_id: image
-                )
+                if Item.exists?(:flex_id => item['id'])
+                    puts "#{item['name']} already exists"
+                else
+                    puts "Getting image for #{item['name']}"
+                    image = RestClient.get("https://cla.flexrentalsolutions.com/f5/api/inventory-model/#{item['id']}/imageUrl", { 'X-Auth-Token' => api_key })
+                    puts "Creating item #{all_items.uniq.index(item)} of #{all_items.uniq.count}"
+                    Item.create!(
+                        name: item['name'], 
+                        size: item['size'],
+                        description: item['narrativeDescription'],
+                        category_id: Category.find_by(name: item['groupName']).id,
+                        flex_id: item['id'],
+                        image_id: image
+                    )
+
+                end
             end
         puts "Successfully seeded #{Item.count} items!"
     end

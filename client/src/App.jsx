@@ -1,10 +1,11 @@
-import { useState, useEffect } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { useState, useEffect } from "react";
+import ItemCard from "./ItemCard";
+import "./App.css";
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [count, setCount] = useState(0);
+  const [inventory, setInventory] = useState([]);
+  const [categories, setCategories] = useState([]);
 
   useEffect(() => {
     fetch("/api/hello")
@@ -12,31 +13,86 @@ function App() {
       .then((data) => setCount(data.count));
   }, []);
 
+  const getInventory = () => {
+    fetch("/api/items")
+      .then((r) => r.json())
+      .then((items) => {
+        setInventory(items);
+      });
+  };
+
+  const getCategories = () => {
+    fetch("/api/categories")
+      .then((r) => r.json())
+      .then((categories) => {
+        console.log(categories);
+        setCategories(categories);
+      });
+  };
+
+  const filter = (category) => {
+    console.log(category);
+    fetch(`/api/categories/${category}/items`)
+      .then((r) => r.json())
+      .then((items) => {
+        // setCategories(category)
+        setInventory(items);
+        getSubcategories(category);
+      });
+  };
+
+  const getSubcategories = (id) => {
+    fetch(`/api/categories/${id}`)
+      .then((r) => r.json())
+      .then((category) => {
+        setCategories([category]);
+        console.log([category]);
+      });
+  };
+
+  console.log(inventory);
   return (
     <div className="App">
-      <h1>Page Count: {count}</h1>
-      {/* <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://reactjs.org" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
+      <div className="columns">
+        <div className="cat">
+          <button onClick={() => getCategories()}>Get Categories</button>
+          <ul>
+            {categories.map(function (cat) {
+              console.log(cat);
+              if (cat.subcategories) {
+                return (
+                  <>
+                    <li key={cat.id} onClick={(e) => filter(cat.id)}>
+                      {cat.name}
+                    </li>
+                    <ul>
+                      {cat.subcategories.map((sub) => (
+                        <li key={sub.id} onClick={(e) => filter(sub.id)}>
+                          {sub.name}
+                        </li>
+                      ))}
+                    </ul>
+                  </>
+                );
+              } else {
+                return (
+                  <li key={cat.id} onClick={(e) => filter(cat.id)}>
+                    {cat.name}
+                  </li>
+                );
+              }
+            })}
+          </ul>
+        </div>
+        <div className="items">
+          <button onClick={() => getInventory()}>Get Inventory</button>
+          {inventory.map((item) => (
+            <ItemCard key={item.id} item={item} />
+          ))}
+        </div>
       </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p> */}
     </div>
-  )
+  );
 }
 
-export default App
+export default App;
