@@ -1,6 +1,5 @@
 import { useState, useEffect } from "react";
 import ItemCard from "./ItemCard";
-import "./App.css";
 
 function App() {
   const [count, setCount] = useState(0);
@@ -52,9 +51,9 @@ function App() {
 
   console.log(inventory);
   return (
-    <div className="App">
-      <div className="columns">
-        <div className="cat">
+    <div className="">
+      <div className="">
+        <div className="">
           <button onClick={() => getCategories()}>Get Categories</button>
           <ul>
             {categories.map(function (cat) {
@@ -84,7 +83,7 @@ function App() {
             })}
           </ul>
         </div>
-        <div className="items">
+        <div className="">
           <button onClick={() => getInventory()}>Get Inventory</button>
           {inventory.map((item) => (
             <ItemCard key={item.id} item={item} />
