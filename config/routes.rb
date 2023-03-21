@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  resources :quote_items
+  resources :quotes
   resources :categories
   resources :items
   # route to test your configuration
