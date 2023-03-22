@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_03_20_222834) do
+ActiveRecord::Schema[7.0].define(version: 2023_03_21_045001) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -31,6 +31,25 @@ ActiveRecord::Schema[7.0].define(version: 2023_03_20_222834) do
     t.string "flex_id"
     t.string "image_id"
     t.string "category_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "quote_items", force: :cascade do |t|
+    t.integer "quantity"
+    t.integer "quote_id"
+    t.integer "item_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "quotes", force: :cascade do |t|
+    t.datetime "prep_date"
+    t.datetime "return_date"
+    t.string "status"
+    t.integer "client_id"
+    t.integer "venue_id"
+    t.integer "user_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
