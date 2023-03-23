@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Route, Router, Routes } from "react-router-dom";
+import { Route, Routes } from "react-router-dom";
 import Home from "./pages/Home/Home";
 import Inventory from "./pages/Inventory/Inventory";
 import Cart from "./pages/Cart/Cart";
@@ -8,14 +8,25 @@ import Signup from "./pages/Signup/Signup";
 import NotFound from "./pages/NotFound/NotFound";
 
 function App() {
+  const [user, setUser] = useState(null)
   // const [count, setCount] = useState(0);
   // const [inventory, setInventory] = useState([]);
   // const [categories, setCategories] = useState([]);
 
   // useEffect(() => {
-  //   fetch("/api/hello")
-  //     .then((r) => r.json())
-  //     .then((data) => setCount(data.count));
+  //   fetch("api/me").then((res) => {
+    //   if (res.ok) {
+    //     res.json().then((user) => {
+    //       setUser(user);
+    //       fetchCategories();
+    //       fetchItems();
+    //     });
+    //   } else {
+    //     res.json().then((data) => {
+    //       setErrors(data.errors);
+    //     });
+    //   }
+    // });
   // }, []);
 
   // const getInventory = () => {
@@ -58,12 +69,13 @@ function App() {
   // console.log(inventory);
   return (
     <>
-      {/* <Home/> */}
-      <Inventory/>
-      {/* <NotFound/> */}
-      {/* <Cart/> */}
-      {/* <Login/> */}
-      {/* <Signup/> */}
+    <Routes>
+      <Route path="/" element={<Home/>} />
+      <Route path="/browse" element={<Inventory/>} />
+      <Route path="/cart" element={<Cart/>} />
+      <Route path="/login" element={<Login/>} />
+      <Route path="/signup" element={<Signup/>} />
+    </Routes>
     </>
   );
 }

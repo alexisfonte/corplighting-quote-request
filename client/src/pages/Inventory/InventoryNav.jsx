@@ -388,7 +388,7 @@ function InventoryNav() {
                   </div>
                     <div>
                       {/* Mega menus */}
-                      <Popover.Group className="ml-8 z-20">
+                      <Popover.Group className="ml-8 z-60">
                         <div className="flex h-full justify-center space-x-8">
                           {navigation.categories.map(
                             (category, categoryIdx) => (
@@ -417,7 +417,7 @@ function InventoryNav() {
                                       leaveFrom="opacity-100"
                                       leaveTo="opacity-0"
                                     >
-                                      <Popover.Panel className="absolute inset-x-0 top-full text-gray-500 sm:text-sm">
+                                      <Popover.Panel className="absolute z-50 inset-x-0 top-full text-gray-500 sm:text-sm">
                                         {/* Presentational element used to render the bottom shadow, if we put the shadow on the actual panel it pokes out the top, so we use this shorter element to hide the top of the shadow */}
                                         <div
                                           className="absolute inset-0 top-1/2 bg-white shadow"
@@ -659,7 +659,7 @@ function InventoryNav() {
                             leaveFrom="opacity-100"
                             leaveTo="opacity-0"
                           >
-                            <Popover.Panel className="absolute inset-x-0 top-16 mt-px bg-white pb-6 shadow-lg sm:px-2 lg:top-full lg:left-auto lg:right-0 lg:mt-3 lg:-mr-1.5 lg:w-80 lg:rounded-lg lg:ring-1 lg:ring-black lg:ring-opacity-5">
+                            <Popover.Panel className="absolute inset-x-0 z-50 top-16 mt-px bg-white pb-6 shadow-lg sm:px-2 lg:top-full lg:left-auto lg:right-0 lg:mt-3 lg:-mr-1.5 lg:w-80 lg:rounded-lg lg:ring-1 lg:ring-black lg:ring-opacity-5">
                               <h2 className="sr-only">Shopping Cart</h2>
 
                               <form className="mx-auto max-w-2xl px-4">
