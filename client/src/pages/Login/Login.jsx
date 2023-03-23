@@ -1,16 +1,67 @@
-import React from "react";
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { useGoogleLogin } from "@react-oauth/google";
 
 function Login() {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [errors, setErrors] = useState([]);
+
+  const navigate = useNavigate();
+
+  const googleLogin = useGoogleLogin({
+    flow: "auth-code",
+    onSuccess: async (codeResponse) => {
+      await fetch("api/auth/google_oauth2/callback", {
+        method: "POST",
+        body: JSON.stringify({ code: codeResponse.code }),
+        headers: {
+          "Content-type": "application/json; charset=UTF-8",
+          "X-Requested-With": "XMLHttpRequest",
+        },
+      }).then((res) => {
+        if (res.ok) {
+          res.json().then((user) => {
+            console.log(user)
+            setUser(user);
+            navigate("/");
+          });
+        } else {
+          res.json().then((data) => {
+            setErrors("Login failed");
+            console.log(data);
+          });
+        }
+      });
+    },
+  });
+
+  const handleLoginSubmit = (e) => {
+    e.preventDefault();
+
+    fetch(`api/login`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        email: email,
+        password: password,
+      }),
+    }).then((res) => {
+      if (res.ok) {
+        res.json().then((user) => {
+          setUser(user);
+          // navigate("/dashboard");
+        });
+      } else {
+        res.json().then((data) => {
+            setErrors(data.errors) 
+        });
+      }
+    });
+  };
+
   return (
     <>
-      {/*
-        This example requires updating your template:
-
-        ```
-        <html class="h-full bg-gray-50">
-        <body class="h-full">
-        ```
-      */}
       <div className="h-screen bg-gray-50">
         <div className="flex min-h-full flex-col justify-center py-12 sm:px-6 lg:px-8">
           <div className="sm:mx-auto sm:w-full sm:max-w-md">
@@ -25,7 +76,7 @@ function Login() {
 
           <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
             <div className="bg-white py-8 px-4 shadow sm:rounded-lg sm:px-10">
-              <form className="space-y-6" action="#" method="POST">
+              <form className="space-y-6" onSubmit={handleLoginSubmit}>
                 <div>
                   <label
                     htmlFor="email"
@@ -39,6 +90,8 @@ function Login() {
                       name="email"
                       type="email"
                       autoComplete="email"
+                      value={email}
+                      onChange={(e) => setEmail(e.target.value)}
                       required
                       className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                     />
@@ -58,6 +111,8 @@ function Login() {
                       name="password"
                       type="password"
                       autoComplete="current-password"
+                      value={password}
+                      onChange={(e) => setPassword(e.target.value)}
                       required
                       className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                     />
@@ -120,7 +175,7 @@ function Login() {
                   <p className="mt-2 text-center text-sm text-gray-600">
                     Don't have an account?{" "}
                     <a
-                      href="#"
+                      href="/signup"
                       className="font-medium text-indigo-600 hover:text-indigo-500"
                     >
                       Sign-up here
