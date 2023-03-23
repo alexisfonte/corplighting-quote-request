@@ -39,4 +39,8 @@ group :development do
   gem "spring"
 end
 
-
+# Use external oAuth
+gem 'omniauth'
+gem 'omniauth-google-oauth2'
+gem 'omniauth-rails_csrf_protection'
+gem 'net-http'
