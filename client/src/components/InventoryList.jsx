@@ -1,19 +1,23 @@
-import React from "react";
+import React, {useContext} from "react";
+import { InventoryContext } from "../App";
 
-const items = [
-  { id: 1 },
-  // More items...
-];
+
+
 
 function InventoryList() {
+  const {inventory} = useContext(InventoryContext)
+
+  console.log(inventory[0])
+
   return (
     <div className="overflow-hidden rounded-md bg-white shadow">
       <ul role="list" className="divide-y divide-gray-200">
-        {items.map((item) => (
+        {inventory.map((item) => (
           <li key={item.id} className="flex justify-between px-6 py-4 w-full">
             <div className="flex">
             <div className="mb-4 flex-shrink-0 sm:mb-0 sm:mr-4">
-              <svg
+              <img src={item.image_id} alt={item.name} className="flex h-16 w-16 border border-neutral bg-white text-gray-300"/>
+              {/* <svg
                 className="h-16 w-16 border border-gray-300 bg-white text-gray-300"
                 preserveAspectRatio="none"
                 stroke="currentColor"
@@ -26,10 +30,10 @@ function InventoryList() {
                   strokeWidth={1}
                   d="M0 0l200 200M0 200L200 0"
                   />
-              </svg>
+              </svg> */}
             </div>
             <div className="mr-10 flex items-center">
-              <h4 className="text-lg font-bold">Lorem ipsum</h4>
+              <h4 className="text-lg font-bold">{item.name}</h4>
               {/* <p className="mt-1">
                 Repudiandae sint consequuntur vel. Amet ut nobis explicabo
                 numquam expedita quia omnis voluptatem. Minus quidem ipsam quia

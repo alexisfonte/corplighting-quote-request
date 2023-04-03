@@ -18,5 +18,6 @@ Rails.application.routes.draw do
   patch '/edit-account', to: 'users#update'
   post '/verify', to: 'users#verify_edit'
 
+  get '/inventory', to: 'items#browse'
   get '/categories/:id/items', to: 'items#filtered_items'
 end
