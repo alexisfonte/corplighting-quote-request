@@ -1,7 +1,7 @@
 class CategoriesController < ApplicationController
 
     def index
-        categories = Category.where(parent_category: nil)
+        categories = Category.customer_categories
         render json: categories, status: :ok
     end
 

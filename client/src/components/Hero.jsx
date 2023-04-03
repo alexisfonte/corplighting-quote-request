@@ -1,10 +1,10 @@
 
 import { Fragment } from 'react'
 import { Tab } from '@headlessui/react'
-import showImage from "../../assets/clav-show.jpeg";
-import clavPlane from "../../assets/clavPlane.jpeg";
-import superbowl from "../../assets/superbowl.jpeg";
-import blueshow from "../../assets/blueshow.jpeg";
+import showImage from "../assets/clav-show.jpeg";
+import clavPlane from "../assets/clavPlane.jpeg";
+import superbowl from "../assets/superbowl.jpeg";
+import blueshow from "../assets/blueshow.jpeg";
 
 
 

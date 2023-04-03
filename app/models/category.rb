@@ -17,4 +17,8 @@ class Category < ApplicationRecord
         return items
     end
 
+    def self.customer_categories
+        return Category.where(parent_category: nil, name: ["Audio", "Lighting", "Video", "LED"])
+    end
+
 end

@@ -1,7 +1,7 @@
 import React from 'react'
-import HomeNav from './HomeNav'
-import Hero from './Hero'
-import GetStarted from './GetStarted'
+import HomeNav from '../components/HomeNav'
+import Hero from '../components/Hero'
+import GetStarted from '../components/GetStarted'
 
 
 function Home() {
