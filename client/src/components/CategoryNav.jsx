@@ -21,7 +21,7 @@ function CategoryNav() {
         <Link
           key={item.name}
           to={`/browse/${item.name}`}
-          className="bg-gray-100 text-gray-900 text-gray-900 hover:bg-gray-50 hover:text-gray-900 inline-flex items-center rounded-md py-2 px-3 text-sm font-medium"
+          className="bg-gray-100 text-gray-900 hover:bg-gray-50 hover:text-gray-900 inline-flex items-center rounded-md py-2 px-3 text-sm font-medium"
           aria-current={item.current ? "page" : undefined}
         >
           {item.name}
