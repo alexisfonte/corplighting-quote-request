@@ -1,20 +1,17 @@
 import React, { useState, useContext } from "react";
-import { useNavigate } from "react-router-dom";
 import { useGoogleLogin } from "@react-oauth/google";
 import { UserContext } from "../App";
 import GoogleButton from "../components/GoogleButton";
 
 function Login() {
-  const { setUser } = useContext(UserContext)
+  const { setUser, setIsLoggedIn } = useContext(UserContext)
 
-  const [login, setLogin] = useState(true)
+  const [signUp, setSignUp] = useState(false)
   const [name, setName] = useState("")
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [consfirm, setConfirm] = useState("")
   const [errors, setErrors] = useState([]);
-
-  const navigate = useNavigate();
 
   const googleLogin = useGoogleLogin({
     flow: "auth-code",
@@ -31,7 +28,7 @@ function Login() {
           res.json().then((user) => {
             console.log(user)
             setUser(user);
-            // navigate("/");
+            setIsLoggedIn(true)
           });
         } else {
           res.json().then((data) => {
@@ -57,7 +54,8 @@ function Login() {
       if (res.ok) {
         res.json().then((user) => {
           setUser(user);
-          navigate("/");
+          setIsLoggedIn(true)
+          // navigate("/");
         });
       } else {
         res.json().then((data) => {
@@ -83,6 +81,7 @@ function Login() {
         res.json().then((user) => {
           // navigate("/dashboard");
           setUser(user);
+          setIsLoggedIn(true)
         });
       } else {
         res.json().then((data) => {
@@ -99,10 +98,10 @@ function Login() {
           <div className="sm:mx-auto sm:w-full sm:max-w-md">
             <div className="flex items-center justify-center">
               <div className="-m-1.5 p-1.5">
-                <span className="text-4xl font-bold leading-6 text-primary">
+                <span className="text-5xl font-bold leading-6 text-primary">
                   Corp
                 </span>
-                <span className="text-4xl font-bold leading-6 text-base-content">
+                <span className="text-5xl font-bold leading-6 text-base-content">
                   Lighting
                 </span>
               </div>
@@ -111,8 +110,8 @@ function Login() {
 
           <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
             <div className="bg-base-100 py-8 px-4 shadow sm:rounded-lg sm:px-10">
-              <form className="space-y-6" onSubmit={login ? handleLoginSubmit : handleSignUpSubmit}>
-                {login ? null : 
+              <form className="space-y-6" onSubmit={signUp ? handleSignUpSubmit : handleLoginSubmit}>
+                {signUp && ( 
                   <div>
                   <label
                     htmlFor="name"
@@ -131,7 +130,7 @@ function Login() {
                     />
                   </div>
                 </div>
-                }
+                )}
                 <div>
                   <label
                     htmlFor="email"
@@ -174,7 +173,7 @@ function Login() {
                   </div>
                 </div>
 
-                {login ? null :
+                {signUp && (
                 <div>
                 <label
                   htmlFor="password"
@@ -193,14 +192,14 @@ function Login() {
                   />
                 </div>
               </div>
-                }
+                )}
 
                 <div>
                   <button
                     type="submit"
                     className="flex w-full justify-center rounded-md bg-primary py-2 px-3 text-sm font-semibold text-primary-content shadow-sm hover:bg-primary-focus focus:bg-primary-focus focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-focus"
                   >
-                    {login ? 'Sign in' : 'Create account'}
+                    {signUp ? 'Create account' : 'Sign in'}
                   </button>
                 </div>
               </form>
@@ -218,12 +217,12 @@ function Login() {
                 <div className="mt-4 grid grid-cols-1 gap-3">
                   <GoogleButton googleLogin={googleLogin}/>
                   <p className="mt-1 text-center text-sm text-neutral">
-                    {login ? 'Don\'t have an account? ' : 'Already have an account? '}
+                    {signUp ? 'Already have an account? ' : 'Don\'t have an account? '}
                     <button
                       className="font-medium text-primary hover:text-primary-focus underline"
-                      onClick={() => setLogin(!login)}
+                      onClick={() => setSignUp(!signUp)}
                     >
-                      {login ? 'Sign-up here' : 'Login-in here'}
+                      {signUp ? 'Login-in here' : 'Sign-up here'}
                     </button>
                   </p>
                 </div>

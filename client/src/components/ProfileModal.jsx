@@ -1,18 +1,22 @@
 import React, { Fragment, useContext, useState, useEffect } from "react";
 import { Menu, Transition } from "@headlessui/react";
 import { Link } from "react-router-dom";
-import { UserContext } from "../App";
+import { AppContext, UserContext } from "../App";
 import { UserIcon, UserPlusIcon } from "@heroicons/react/24/outline";
 
 
 
 function ProfileModal() {
-  const { user, setUser } = useContext(UserContext)
+  const { setIsLoading } = useContext(AppContext)
+  const { user, setUser, setIsLoggedIn } = useContext(UserContext)
   // console.log(user.name)
   // const profilePic = "A"
   const handleLogout = () => {
+    setIsLoading(true)
     fetch("/api/logout", { method: "DELETE" }).then(() => {
       setUser(null)
+      setIsLoggedIn(false)
+      setIsLoading(false)
     });
   };
   return (
