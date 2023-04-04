@@ -11,15 +11,7 @@ class ItemsController < ApplicationController
 
     # get all items for customer browsing 
     def browse
-        inventory = []
-        Category.customer_categories.each do |category|
-            name = category.path
-            items = Category.filter(name)
-            items.each do |item|
-                inventory << item
-            end
-        end
-        puts inventory.count
+        inventory = Item.customer_inventory
         render json: inventory, status: :ok
     end
 

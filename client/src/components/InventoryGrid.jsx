@@ -5,7 +5,7 @@ import { InventoryContext } from '../App'
 
 
 function InventoryGrid() {
-  const {inventory} = useContext(InventoryContext)
+  const { inventory } = useContext(InventoryContext)
   return (
 
 <div className="bg-white -z-20">

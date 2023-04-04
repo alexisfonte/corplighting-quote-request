@@ -7,7 +7,7 @@ class CategoriesController < ApplicationController
 
     def show 
         category = Category.find(params[:id])
-        render json: category, status: :ok, serializer: SubcategorySerializer
+        render json: category, status: :ok, serializer: SubcategorySerializer unless category.customer_view = false
     end
 
 end
