@@ -30,7 +30,6 @@ function App() {
         res.json().then((user) => {
           setUser(user);
           setIsLoggedIn(true);
-          getInventory();
         });
       } else {
         res.json().then((data) => {
@@ -62,10 +61,12 @@ function App() {
   // }, [user]);
 
   const getInventory = () => {
+    // setIsLoading(true)
     fetch("/api/inventory")
       .then((r) => r.json())
       .then((items) => {
         setInventory(items);
+        // setIsLoading(false)
       });
   };
 
@@ -94,14 +95,19 @@ function App() {
 
   const getSubcategories = (id) => {
     // setIsLoading(true)
-    fetch(`/api/categories/${id}`)
-      .then((r) => r.json())
-      .then((category) => {
-        console.log(category);
-        setSubcategories(category);
-        // setIsLoading(false)
-        // console.log(category);
-      });
+    fetch(`/api/categories/${id}`).then((res) => {
+      if (res.ok) {
+        res.json().then((category) => {
+          console.log(category);
+          setSubcategories(category);
+          filter(category.id)
+        })
+      }else {
+        res.json().then((data) => {
+          console.log(data)
+        })
+      }
+    })
   };
 
   if (isLoggedIn === null || isLoading) return <Loading />;
@@ -113,7 +119,7 @@ function App() {
           value={{ user, setUser, isLoggedIn, setIsLoggedIn }}
         >
           <InventoryContext.Provider
-            value={{ inventory, categories, subcategories, getSubcategories, filter }}
+            value={{ inventory, categories, subcategories, getSubcategories, filter, getInventory }}
           >
             <Routes>
               <Route

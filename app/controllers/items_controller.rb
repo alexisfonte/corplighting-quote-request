@@ -1,7 +1,12 @@
 class ItemsController < ApplicationController
 
     def index
-        render json: Item.all, status: :ok
+        items = Item.paginate(page: params[:page])
+        render json: {
+            items: items,
+            page: items.current_page,
+            pages: items.total_pages
+        }, status: :ok
     end
 
     def show
@@ -11,8 +16,12 @@ class ItemsController < ApplicationController
 
     # get all items for customer browsing 
     def browse
-        inventory = Item.customer_inventory
-        render json: inventory, status: :ok
+        inventory = Item.customer_inventory.paginate(page: params[:page])
+        render json: {
+            inventory: inventory,
+            page: inventory.current_page,
+            pages: inventory.total_pages
+            }, status: :ok
     end
 
     # get all items for the filtered category

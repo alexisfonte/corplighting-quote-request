@@ -17,8 +17,7 @@ function CategorySidebar() {
   const { category } = useParams();
 
   const { setIsLoading } = useContext(AppContext);
-  const { subcategories, categories, getSubcategories, filter } =
-    useContext(InventoryContext);
+  const { subcategories, categories, getSubcategories, filter, getInventory } = useContext(InventoryContext);
 
   const [title, setTitle] = useState(null);
   const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false);
@@ -36,6 +35,7 @@ function CategorySidebar() {
       setIsLoading(false);
     } else {
       setFilters(categories);
+      // getInventory();
     }
   }, [category, categories, subcategories, filters]);
 

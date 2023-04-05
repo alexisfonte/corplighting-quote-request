@@ -3,6 +3,8 @@ class Item < ApplicationRecord
     # has_many :quote_items
     # has_many :quotes, through: :quote_items
 
+    self.per_page = 20
+
     validates :flex_id, uniqueness: true
 
     scope :customer_inventory, -> { joins(:category).merge(Category.customer_inventory) } 
