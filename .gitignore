@@ -24,4 +24,4 @@
 
 .env
 */node_modules
-.byebug_history
+/.byebug_history

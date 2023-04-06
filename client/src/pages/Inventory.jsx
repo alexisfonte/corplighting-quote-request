@@ -1,12 +1,13 @@
 import React from 'react'
 import CategorySidebar from '../components/CategorySidebar'
 import Nav from '../components/Nav'
+import { Outlet } from 'react-router-dom'
 
 function Inventory() {
   return (
     <div className='w-screen'>
       <Nav/>
-      <CategorySidebar/>
+      <Outlet/>
     </div>
   )
 }

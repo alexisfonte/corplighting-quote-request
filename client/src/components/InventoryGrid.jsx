@@ -1,11 +1,15 @@
-import React, { useContext } from 'react'
+import React, { useContext, useEffect } from 'react'
 import Breadcrumbs from '../components/Breadcrumbs'
 import Quickview from '../components/Quickview'
 import { InventoryContext } from '../App'
 
 
 function InventoryGrid() {
-  const { inventory } = useContext(InventoryContext)
+  const { inventory, getInventory } = useContext(InventoryContext)
+  console.log(inventory)
+  // useEffect(() => {
+  //     getInventory();
+  // }, []);
   return (
 
 <div className="bg-white -z-20">
@@ -13,7 +17,7 @@ function InventoryGrid() {
         {/* <Breadcrumbs/> */}
         <h2 className="sr-only">Products</h2>
         <div className="-mx-px grid grid-cols-2 border-l border-gray-200 sm:mx-0 md:grid-cols-3 lg:grid-cols-4">
-          {inventory.map((product) => (
+          {inventory.length != 0 && inventory.inventory.map((product) => (
               <div key={product.id} className="group relative flex flex-col-reverse justify-between border-r border-b border-gray-200 p-4 sm:p-6">
                 
                 {/* <a

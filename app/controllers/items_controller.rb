@@ -16,7 +16,7 @@ class ItemsController < ApplicationController
 
     # get all items for customer browsing 
     def browse
-        inventory = Item.customer_inventory.paginate(page: params[:page])
+        inventory = Item.customer_inventory.paginate(page: params[:page], per_page: 20)
         render json: {
             inventory: inventory,
             page: inventory.current_page,
@@ -26,8 +26,12 @@ class ItemsController < ApplicationController
 
     # get all items for the filtered category
     def filtered_items
-        category_name = Category.find(params[:id]).path
-        filtered_items = Category.filter(category_name)
-        render json: filtered_items, status: :ok
+        category_name = params[:path]
+        filtered_items = Category.filter(category_name).paginate(page: params[:page], per_page: 20)
+        render json: {
+            inventory: filtered_items,
+            page: filtered_items.current_page,
+            pages: filtered_items.total_pages
+            }, status: :ok
     end
 end

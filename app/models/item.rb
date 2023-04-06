@@ -3,7 +3,7 @@ class Item < ApplicationRecord
     # has_many :quote_items
     # has_many :quotes, through: :quote_items
 
-    self.per_page = 20
+    self.per_page = 24
 
     validates :flex_id, uniqueness: true
 

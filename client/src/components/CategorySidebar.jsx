@@ -14,7 +14,7 @@ import { AppContext, InventoryContext } from "../App";
 import { Link, useParams } from "react-router-dom";
 
 function CategorySidebar() {
-  const { category } = useParams();
+  const { category, page } = useParams();
 
   const { setIsLoading } = useContext(AppContext);
   const { subcategories, categories, getSubcategories, filter, getInventory } = useContext(InventoryContext);
@@ -25,19 +25,20 @@ function CategorySidebar() {
   const [gridView, setGridView] = useState(true);
 
   useEffect(() => {
+    console.log(category)
     if (category) {
       setIsLoading(true);
-      if (subcategories.id != category) {
-        getSubcategories(category);
+      if (subcategories.path != category) {
+        getSubcategories(category, page);
       }
       setTitle(subcategories.name);
       setFilters(subcategories);
       setIsLoading(false);
     } else {
       setFilters(categories);
-      // getInventory();
+      getInventory(page);
     }
-  }, [category, categories, subcategories, filters]);
+  }, [category, categories, subcategories, page]);
 
   const singleList = () => {
     if (filters.length == 4) {
@@ -48,7 +49,7 @@ function CategorySidebar() {
               {category.name}
             </Link>
           </li>
-          <ul>
+          {/* <ul>
             {category.subcategories.map((subcategory) => (
               <li key={subcategory.id}>
                 <Link
@@ -59,14 +60,14 @@ function CategorySidebar() {
                 </Link>
               </li>
             ))}
-          </ul>
+          </ul> */}
         </>
       ));
     }
   };
 
   const nestedList = () => {
-    if (filters.id == category) {
+    if (filters.path == category) {
       return (
         <>
           <li key={filters.id}>
@@ -79,7 +80,7 @@ function CategorySidebar() {
               <li key={category.id}>
                 <Link
                   key={`link-key-${category.id}`}
-                  to={`/browse/${category.id}`}
+                  to={`/browse/${category.path}`}
                 >
                   {category.name}
                 </Link>

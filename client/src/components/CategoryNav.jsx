@@ -13,7 +13,7 @@ function CategoryNav() {
         {categories && categories.map((item) => (
           <Link
             key={item.id}
-            to={`/browse/${item.id}`}
+            to={`/browse/${item.path}`}
             className="text-gray-900 inline-flex items-center py-2 px-3 text-sm font-medium"
             aria-current={item.current ? "page" : undefined}
           >
