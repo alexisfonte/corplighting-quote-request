@@ -2,7 +2,7 @@ Rails.application.routes.draw do
   resources :users
   resources :quote_items
   resources :quotes
-  resources :categories
+  resources :categories, only: :index
   resources :items
   # route to test your configuration
   get '/hello', to: 'application#hello_world'
@@ -19,5 +19,7 @@ Rails.application.routes.draw do
   post '/verify', to: 'users#verify_edit'
 
   get '/inventory', to: 'items#browse'
-  get '/categories/:id/items', to: 'items#filtered_items'
+  get '/categories/:path/items', to: 'items#filtered_items'
+
+  get '/categories/:path', to: 'categories#show'
 end

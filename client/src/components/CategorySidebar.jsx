@@ -10,32 +10,99 @@ import InventoryList from "./InventoryList";
 import Breadcrumbs from "../components/Breadcrumbs";
 import Pagnation from "../components/Pagnation";
 import InventoryGrid from "./InventoryGrid";
-import { InventoryContext } from "../App";
-import { Link } from "react-router-dom";
+import { AppContext, InventoryContext } from "../App";
+import { Link, useParams } from "react-router-dom";
 
 function CategorySidebar() {
-  const { subcategories, categories, getSubcategories } =
-    useContext(InventoryContext);
+  const { category, page } = useParams();
+
+  const { setIsLoading } = useContext(AppContext);
+  const { subcategories, categories, getSubcategories, filter, getInventory } = useContext(InventoryContext);
+
+  const [title, setTitle] = useState(null);
   const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false);
   const [filters, setFilters] = useState([]);
   const [gridView, setGridView] = useState(true);
 
-  console.log(categories.length);
-  console.log(filters.length);
-  console.log(filters.name);
   useEffect(() => {
-    if (subcategories.length == 0 || subcategories.subcategories == undefined) {
-      setFilters(categories);
-    } else {
+    console.log(category)
+    if (category) {
+      setIsLoading(true);
+      if (subcategories.path != category) {
+        getSubcategories(category, page);
+      }
+      setTitle(subcategories.name);
       setFilters(subcategories);
+      setIsLoading(false);
+    } else {
+      setFilters(categories);
+      getInventory(page);
     }
-  }, [subcategories]);
+  }, [category, categories, subcategories, page]);
+
+  const singleList = () => {
+    if (filters.length == 4) {
+      return filters.map((category) => (
+        <>
+          <li key={category.name}>
+            <Link key={`link-key-${category.id}`} to={`/browse/${category.id}`}>
+              {category.name}
+            </Link>
+          </li>
+          {/* <ul>
+            {category.subcategories.map((subcategory) => (
+              <li key={subcategory.id}>
+                <Link
+                  key={`link-key-${subcategory.id}`}
+                  to={`/browse/${subcategory.id}`}
+                >
+                  {subcategory.name}
+                </Link>
+              </li>
+            ))}
+          </ul> */}
+        </>
+      ));
+    }
+  };
+
+  const nestedList = () => {
+    if (filters.path == category) {
+      return (
+        <>
+          <li key={filters.id}>
+            <Link key={`link-key-${filters.id}`} to={`/browse/${filters.id}`}>
+              {filters.name}
+            </Link>
+          </li>
+          <ul>
+            {filters.subcategories.map((category) => (
+              <li key={category.id}>
+                <Link
+                  key={`link-key-${category.id}`}
+                  to={`/browse/${category.path}`}
+                >
+                  {category.name}
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </>
+      );
+    } else {
+      <li key={filters.id}>
+        <Link key={`link-key-${filters.id}`} to={`/browse/${filters.id}`}>
+          {filters.name}
+        </Link>
+      </li>;
+    }
+  };
 
   return (
     <div className="bg-white">
       <div>
         {/* Mobile filter dialog */}
-        {/* <Transition.Root show={mobileFiltersOpen} as={Fragment}>
+        <Transition.Root show={mobileFiltersOpen} as={Fragment}>
           <Dialog
             as="div"
             className="relative z-40 lg:hidden"
@@ -79,57 +146,25 @@ function CategorySidebar() {
                   </div>
 
                   {/* Filters */}
-                  {/* <form className="mt-4 border-t border-gray-200">
+                  <form className="mt-4 border-t border-gray-200">
                     <h3 className="sr-only">Categories</h3>
                     <ul
                       role="list"
                       className="px-2 py-3 font-medium text-gray-900"
                     >
-                      {filters.map((category) => (
-                        <>
-                          <li
-                            key={category.id}
-                            onClick={() => getSubcategories(category.id)}
-                          >
-                            <Link key={`link-key-${category.id}`} to={`/browse/${category.id}`}>
-                              {category.name}
-                            </Link>
-                          </li>
-                          {category.subcategories ? (
-                            <ul key={`subcategory${category.id}`}>
-                              {category.subcategories.map((subcategory) => (
-                                <>
-                                  <li
-                                    key={subcategory.id}
-                                    onClick={() =>
-                                      getSubcategories(subcategory.id)
-                                    }
-                                  >
-                                    <Link
-                                    key={`link-key-${subsubcategory.id}`}
-                                      to={`/browse/${subparent_category_id}/${subcategory.name}`}
-                                    >
-                                      {subcategory.name}
-                                    </Link>
-                                  </li>
-                                </>
-                              ))}
-                            </ul>
-                          ) : null}
-                        </>
-                      ))}
+                      {category ? nestedList() : singleList()}
                     </ul>
                   </form>
                 </Dialog.Panel>
               </Transition.Child>
             </div>
-          </Dialog> */}
-        {/* </Transition.Root>  */}
+          </Dialog>
+        </Transition.Root>
 
         <main className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className="flex items-baseline justify-between border-b border-gray-200 pt-12 pb-6">
             <h1 className="text-4xl font-bold tracking-tight text-gray-900">
-              {(filters.length > 1 && filters.name !== 'undefined') ? "All Products" : `${filters.name}`}
+              {title ? title : "All Products"}
             </h1>
             <div className="flex items-center">
               <button
@@ -174,37 +209,7 @@ function CategorySidebar() {
                   role="list"
                   className="space-y-4 border-b border-gray-200 pb-6 pt-6 text-sm font-medium text-gray-900"
                 >
-                  {filters.map((category) => (
-                    <>
-                      <li
-                        key={category.id}
-                        onClick={() => getSubcategories(category.id)}
-                      >
-                        <Link key={`link-key-${category.id}`} to={`/browse/${category.id}`}>
-                          {category.name}
-                        </Link>
-                      </li>
-                      {/* 
-                        <ul key={`subcategory${category.id}`}>
-                          {category.subcategories.map((subcategory) => (
-                            <>
-                              <li
-                                key={subcategory.id}
-                                onClick={() => getSubcategories(subcategory.id)}
-                              >
-                                <Link
-                                  key={`link-key-${subcategory.id}`}
-                                  to={`/browse/${subcategory.parent_category_id}/${subcategory.name}`}
-                                >
-                                  {subcategory.name}
-                                </Link>
-                              </li>
-                            </>
-                          ))}
-                        </ul>
-                      ) : null} */}
-                    </>
-                  ))}
+                  {category ? nestedList() : singleList()}
                 </ul>
               </form>
 

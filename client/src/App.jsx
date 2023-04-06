@@ -7,6 +7,8 @@ import Login from "./pages/Login";
 import TestPage from "./pages/TestPage";
 import Account from "./pages/Account";
 import Loading from "./pages/Loading";
+import CategorySidebar from "./components/CategorySidebar";
+import InventoryGrid from "./components/InventoryGrid";
 
 export const UserContext = createContext("");
 export const InventoryContext = createContext("");
@@ -24,15 +26,12 @@ function App() {
 
   // CHECK TO SEE IF USER IS LOGGED IN
   useEffect(() => {
+    setIsLoading(true);
     fetch("/api/me").then((res) => {
       if (res.ok) {
-        setIsLoading(true)
         res.json().then((user) => {
           setUser(user);
           setIsLoggedIn(true);
-          getInventory();
-          getCategories();
-          setIsLoading(false)
         });
       } else {
         res.json().then((data) => {
@@ -41,6 +40,8 @@ function App() {
           // navigate('/login')
         });
       }
+      getCategories();
+      setIsLoading(false);
     });
   }, []);
 
@@ -61,11 +62,13 @@ function App() {
   //   }
   // }, [user]);
 
-  const getInventory = () => {
-    fetch("/api/inventory")
+  const getInventory = (pg = 1) => {
+    // setIsLoading(true)
+    fetch(`/api/inventory/?page=${pg}`)
       .then((r) => r.json())
       .then((items) => {
         setInventory(items);
+        // setIsLoading(false)
       });
   };
 
@@ -78,28 +81,35 @@ function App() {
       });
   };
 
-  const filter = (category) => {
-    setIsLoading(true)
+  const filter = (category, pg = 1) => {
+    console.log("heyyy");
+    setIsLoading(true);
     // console.log(category);
-    fetch(`/api/categories/${category}/items`)
+    fetch(`/api/categories/${category}/items/?page=${pg}`)
       .then((r) => r.json())
       .then((items) => {
+        console.log(items);
         setInventory(items);
-        setSubcategories(category);
-        setIsLoading(false)
+        // setSubcategories(category);
+        setIsLoading(false);
       });
   };
 
-  const getSubcategories = (id) => {
-    setIsLoading(true)
-    fetch(`/api/categories/${id}`)
-      .then((r) => r.json())
-      .then((category) => {
-        console.log(category);
-        setSubcategories(category);
-        setIsLoading(false)
-        // console.log(category);
-      });
+  const getSubcategories = (path, pg) => {
+    // setIsLoading(true)
+    fetch(`/api/categories/${path}`).then((res) => {
+      if (res.ok) {
+        res.json().then((category) => {
+          console.log(category);
+          setSubcategories(category);
+          filter(category.path, pg);
+        });
+      } else {
+        res.json().then((data) => {
+          console.log(data);
+        });
+      }
+    });
   };
 
   if (isLoggedIn === null || isLoading) return <Loading />;
@@ -111,16 +121,28 @@ function App() {
           value={{ user, setUser, isLoggedIn, setIsLoggedIn }}
         >
           <InventoryContext.Provider
-            value={{ inventory, categories, subcategories, getSubcategories }}
+            value={{
+              inventory,
+              categories,
+              subcategories,
+              getSubcategories,
+              filter,
+              getInventory,
+            }}
           >
             <Routes>
               <Route
                 path="/login"
-                element={!isLoggedIn ? <Login /> : <Navigate to="/browse" />}
+                element={
+                  !isLoggedIn ? <Login /> : <Navigate to="/browse/inventory" />
+                }
               />
               <Route path="/" element={<Home />} />
               <Route path="/browse" element={<Inventory />}>
-                <Route path="/browse/:category?" element={<Inventory />} />
+                <Route path="inventory" element={<InventoryGrid />} />
+                <Route path=":category" element={<CategorySidebar />}>
+                  <Route path=":page" element={<CategorySidebar />} />
+                </Route>
               </Route>
               <Route path="/test" element={<Loading />} />
               <Route

@@ -6,6 +6,7 @@ class Category < ApplicationRecord
     validates :flex_id, uniqueness: true
 
     scope :all_subcategories, ->(name) { where("path LIKE :prefix", prefix: "#{name}%") }
+    scope :customer_inventory, ->{ where(customer_view: true) }
 
     def self.filter(name)
         items = []
