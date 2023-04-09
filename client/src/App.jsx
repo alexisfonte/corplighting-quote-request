@@ -82,13 +82,13 @@ function App() {
   };
 
   const filter = (category, pg = 1) => {
-    console.log("heyyy");
+    // console.log("heyyy");
     setIsLoading(true);
     // console.log(category);
     fetch(`/api/categories/${category}/items/?page=${pg}`)
       .then((r) => r.json())
       .then((items) => {
-        console.log(items);
+        // console.log(items);
         setInventory(items);
         // setSubcategories(category);
         setIsLoading(false);
@@ -100,7 +100,7 @@ function App() {
     fetch(`/api/categories/${path}`).then((res) => {
       if (res.ok) {
         res.json().then((category) => {
-          console.log(category);
+          // console.log(category);
           setSubcategories(category);
           filter(category.path, pg);
         });

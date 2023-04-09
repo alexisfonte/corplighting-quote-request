@@ -7,7 +7,7 @@ function Pagnation() {
   const { inventory, getInventory } = useContext(InventoryContext);
   const [currentPage, setCurrentPage] = useState(1)
   const { category, page } = useParams();
-  console.log(inventory.pages)
+  // console.log(inventory.pages)
 
     useEffect(() => {
       setCurrentPage(inventory.page)

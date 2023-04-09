@@ -25,9 +25,9 @@ function CategorySidebar() {
   const [gridView, setGridView] = useState(true);
 
   useEffect(() => {
-    console.log(category)
+    // console.log(category)
     if (category) {
-      console.log(category)
+      // console.log(category)
       setIsLoading(true);
       if (subcategories.path != category) {
         getSubcategories(category, page);
@@ -36,7 +36,7 @@ function CategorySidebar() {
       setFilters(subcategories);
       setIsLoading(false);
     } else {
-      console.log(category)
+      // console.log(category)
       setFilters(categories);
       getInventory(page);
     }

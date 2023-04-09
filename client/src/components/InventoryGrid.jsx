@@ -5,7 +5,7 @@ import { InventoryContext } from "../App";
 
 function InventoryGrid() {
   const { inventory, getInventory } = useContext(InventoryContext);
-  console.log(inventory);
+  // console.log(inventory);
   // useEffect(() => {
   //   getInventory();
   // }, []);
