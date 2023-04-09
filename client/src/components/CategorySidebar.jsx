@@ -36,8 +36,9 @@ function CategorySidebar() {
       setIsLoading(false);
     } else {
       setFilters(categories);
-      getInventory(page);
     }
+    getInventory(page);
+
   }, [category, categories, subcategories, page]);
 
   const singleList = () => {
