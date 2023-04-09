@@ -27,6 +27,7 @@ function CategorySidebar() {
   useEffect(() => {
     console.log(category)
     if (category) {
+      console.log(category)
       setIsLoading(true);
       if (subcategories.path != category) {
         getSubcategories(category, page);
@@ -35,6 +36,7 @@ function CategorySidebar() {
       setFilters(subcategories);
       setIsLoading(false);
     } else {
+      console.log(category)
       setFilters(categories);
       getInventory(page);
     }
@@ -46,7 +48,7 @@ function CategorySidebar() {
       return filters.map((category) => (
         <>
           <li key={category.name}>
-            <Link key={`link-key-${category.id}`} to={`/browse/${category.id}`}>
+            <Link key={`link-key-${category.id}`} to={`/browse/${category.path}`}>
               {category.name}
             </Link>
           </li>
@@ -72,7 +74,7 @@ function CategorySidebar() {
       return (
         <>
           <li key={filters.id}>
-            <Link key={`link-key-${filters.id}`} to={`/browse/${filters.id}`}>
+            <Link key={`link-key-${filters.id}`} to={`/browse/${filters.path}`}>
               {filters.name}
             </Link>
           </li>
