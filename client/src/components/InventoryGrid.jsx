@@ -31,10 +31,8 @@ function InventoryGrid() {
 
                 <div className="pt-2  text-center">
                   <h3 className="text-sm font-medium text-gray-900">
-                    <a href={product.id}>
                       <span aria-hidden="true" className="absolute inset-0" />
                       {product.name}
-                    </a>
                   </h3>
                 </div>
                 <div className="aspect-w-1 aspect-h-1 overflow-hidden rounded-lg bg-gray-200 group-hover:opacity-75">
