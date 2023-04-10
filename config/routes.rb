@@ -20,6 +20,7 @@ Rails.application.routes.draw do
 
   get '/inventory', to: 'items#browse'
   get '/categories/:path/items', to: 'items#filtered_items'
+  get '/similar-items/:id', to: 'items#similar_products'
 
   get '/categories/:path', to: 'categories#show'
 end

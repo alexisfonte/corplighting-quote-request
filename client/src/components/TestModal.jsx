@@ -1,41 +1,29 @@
-import { Fragment, useState, useContext } from "react";
-import { Link } from "react-router-dom";
-import { Dialog, Transition } from "@headlessui/react";
-import { InventoryContext } from "../App";
+import { Dialog, Transition } from '@headlessui/react'
+import { Fragment, useState } from 'react'
 
-// const product = {
-//   name: "Women's Basic Tee",
-//   price: '$32',
-//   rating: 3.9,
-//   reviewCount: 512,
-//   href: '#',
-//   imageSrc: 'https://tailwindui.com/img/ecommerce-images/product-page-01-featured-product-shot.jpg',
-//   imageAlt: "Back of women's Basic Tee in black.",
-//   colors: [
-//     { name: 'Black', bgColor: 'bg-gray-900', selectedColor: 'ring-gray-900' },
-//     { name: 'Heather Grey', bgColor: 'bg-gray-400', selectedColor: 'ring-gray-400' },
-//   ],
-//   sizes: [
-//     { name: 'XXS', inStock: true },
-//     { name: 'XS', inStock: true },
-//     { name: 'S', inStock: true },
-//     { name: 'M', inStock: true },
-//     { name: 'L', inStock: true },
-//     { name: 'XL', inStock: true },
-//     { name: 'XXL', inStock: false },
-//   ],
-// }
+function TestModal() {
+    const [isOpen, setIsOpen] = useState(true)
 
-function classNames(...classes) {
-  return classes.filter(Boolean).join(" ");
-}
-function Quickview({ open, closeModal }) {
-  const { product, setProduct } = useContext(InventoryContext);
-  // const [selectedColor, setSelectedColor] = useState(product.colors[0])
-  // const [selectedSize, setSelectedSize] = useState(product.sizes[2])
-
+    function closeModal() {
+      setIsOpen(false)
+    }
+  
+    function openModal() {
+      setIsOpen(true)
+    }
   return (
-    <Transition appear show={open} as={Fragment}>
+    <>
+    <div className="fixed inset-0 flex items-center justify-center">
+      <button
+        type="button"
+        onClick={openModal}
+        className="rounded-md bg-black bg-opacity-20 px-4 py-2 text-sm font-medium text-white hover:bg-opacity-30 focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75"
+      >
+        Open dialog
+      </button>
+    </div>
+
+    <Transition appear show={isOpen} as={Fragment}>
       <Dialog as="div" className="relative z-10" onClose={closeModal}>
         <Transition.Child
           as={Fragment}
@@ -89,7 +77,8 @@ function Quickview({ open, closeModal }) {
         </div>
       </Dialog>
     </Transition>
-  );
+  </>
+  )
 }
 
-export default Quickview;
+export default TestModal
