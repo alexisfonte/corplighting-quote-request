@@ -25,8 +25,9 @@ function CategorySidebar() {
   const [gridView, setGridView] = useState(true);
 
   useEffect(() => {
-    console.log(category)
+    // console.log(category)
     if (category) {
+      // console.log(category)
       setIsLoading(true);
       if (subcategories.path != category) {
         getSubcategories(category, page);
@@ -35,9 +36,11 @@ function CategorySidebar() {
       setFilters(subcategories);
       setIsLoading(false);
     } else {
+      // console.log(category)
       setFilters(categories);
       getInventory(page);
     }
+
   }, [category, categories, subcategories, page]);
 
   const singleList = () => {
@@ -45,7 +48,7 @@ function CategorySidebar() {
       return filters.map((category) => (
         <>
           <li key={category.name}>
-            <Link key={`link-key-${category.id}`} to={`/browse/${category.id}`}>
+            <Link key={`link-key-${category.id}`} to={`/browse/${category.path}`}>
               {category.name}
             </Link>
           </li>
@@ -71,7 +74,7 @@ function CategorySidebar() {
       return (
         <>
           <li key={filters.id}>
-            <Link key={`link-key-${filters.id}`} to={`/browse/${filters.id}`}>
+            <Link key={`link-key-${filters.id}`} to={`/browse/${filters.path}`}>
               {filters.name}
             </Link>
           </li>
@@ -194,7 +197,7 @@ function CategorySidebar() {
               </button>
             </div>
           </div>
-          <Breadcrumbs />
+          {subcategories.path && <Breadcrumbs />}
 
           <section aria-labelledby="products-heading" className="pt-0 pb-24">
             <h2 id="products-heading" className="sr-only">
