@@ -197,7 +197,7 @@ function CategorySidebar() {
               </button>
             </div>
           </div>
-          <Breadcrumbs />
+          {subcategories.path && <Breadcrumbs />}
 
           <section aria-labelledby="products-heading" className="pt-0 pb-24">
             <h2 id="products-heading" className="sr-only">
