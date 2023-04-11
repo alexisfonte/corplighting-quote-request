@@ -6,10 +6,12 @@ import Cart from "./pages/Cart";
 import Login from "./pages/Login";
 import TestPage from "./pages/TestPage";
 import Account from "./pages/Account";
-import Loading from "./pages/Loading";
+import Loading from "./components/Loading";
 import CategorySidebar from "./components/CategorySidebar";
 import InventoryGrid from "./components/InventoryGrid";
 import ProductDetails from "./pages/ProductDetails";
+import Nav from "./components/navbar/Nav";
+
 
 export const UserContext = createContext("");
 export const InventoryContext = createContext("");
@@ -152,7 +154,7 @@ function App() {
       <AppContext.Provider value={{ isLoading, setIsLoading }}>
         <UserContext.Provider
           value={{ user, setUser, isLoggedIn, setIsLoggedIn }}
-        >
+          >
           <InventoryContext.Provider
             value={{
               inventory,
@@ -165,7 +167,8 @@ function App() {
               filter,
               getInventory,
             }}
-          >
+            >
+            <Nav/>
             <Routes>
               <Route
                 path="/login"

@@ -7,8 +7,8 @@ import {
   ListBulletIcon,
 } from "@heroicons/react/20/solid";
 import InventoryList from "./InventoryList";
-import Breadcrumbs from "../components/Breadcrumbs";
-import Pagnation from "../components/Pagnation";
+import Breadcrumbs from "./ui/Breadcrumbs";
+import Pagnation from "./ui/Pagnation";
 import InventoryGrid from "./InventoryGrid";
 import { AppContext, InventoryContext } from "../App";
 import { Link, useParams } from "react-router-dom";

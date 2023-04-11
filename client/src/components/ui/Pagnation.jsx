@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react'
 import { ArrowLongLeftIcon, ArrowLongRightIcon } from '@heroicons/react/20/solid'
-import { InventoryContext } from '../App'
+import { InventoryContext } from '../../App'
 import { Link, useParams } from 'react-router-dom'
 
 function Pagnation() {

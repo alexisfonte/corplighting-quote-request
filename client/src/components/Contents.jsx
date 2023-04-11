@@ -12,7 +12,7 @@ import {
   QuestionMarkCircleIcon,
   XMarkIcon as XMarkIconMini,
 } from "@heroicons/react/20/solid";
-import Datepicker from "./Datepicker";
+import Datepicker from "./form/Datepicker";
 
 const products = [
   {

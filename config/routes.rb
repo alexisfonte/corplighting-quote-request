@@ -2,7 +2,7 @@ Rails.application.routes.draw do
   resources :users, only: [:show, :create, :update]
   resources :quote_items, only: [:index, :show, :create, :update, :destroy]
   resources :quotes, only: [:index, :show, :create, :update]
-  resources :categories, only: [:index, :show]
+  resources :categories, only: [:index]
   resources :items, only: [:index, :show]
   
   # route to test your configuration

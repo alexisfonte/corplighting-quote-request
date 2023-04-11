@@ -1,6 +1,6 @@
 import React from 'react'
-import MobileCategorySection from '../components/MobileCategorySection'
-import MobileUserSection from '../components/MobileUserSection'
+import MobileCategorySection from './MobileCategorySection'
+import MobileUserSection from './MobileUserSection'
 
 function Mobile() {
   return (

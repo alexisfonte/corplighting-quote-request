@@ -1,7 +1,7 @@
 import React, { Fragment, useContext, useState, useEffect } from "react";
 import { Menu, Transition } from "@headlessui/react";
 import { Link } from "react-router-dom";
-import { AppContext, UserContext } from "../App";
+import { AppContext, UserContext } from "../../App";
 import { UserIcon, UserPlusIcon } from "@heroicons/react/24/outline";
 
 
@@ -20,7 +20,7 @@ function ProfileModal() {
     });
   };
   return (
-    <Menu as="div" className="relative ml-4 flex-shrink-0">
+    <Menu as="div" className="relative flex-shrink-0">
       <div>
         <Menu.Button className="flex rounded-full bg-white focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
           <span className="sr-only">Open user menu</span>

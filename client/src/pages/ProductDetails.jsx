@@ -20,9 +20,9 @@ import {
 import { StarIcon } from "@heroicons/react/20/solid";
 import { InventoryContext } from "../App";
 import { useParams } from "react-router-dom";
-import QuantityInput from "../components/QuantityInput";
-import Nav from "../components/Nav";
-import Breadcrumbs from "../components/Breadcrumbs";
+import QuantityInput from "../components/form/QuantityInput";
+import Nav from "../components/navbar/Nav";
+import Breadcrumbs from "../components/ui/Breadcrumbs";
 
 const product = {
   name: "Zip Tote Basket",

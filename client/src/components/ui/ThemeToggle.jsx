@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { SunIcon } from '@heroicons/react/24/outline'
 import { MoonIcon } from '@heroicons/react/20/solid'
-import useDarkMode from '../hooks/useDarkMode'
+import useDarkMode from '../../hooks/useDarkMode'
 
 
 function ThemeToggle() {
