@@ -1,7 +1,7 @@
 import React, { useContext } from "react";
 import { Link, useParams } from "react-router-dom";
 import { HomeIcon } from "@heroicons/react/20/solid";
-import { InventoryContext } from "../App";
+import { InventoryContext } from "../../App";
 
 function Breadcrumbs() {
   const { inventory, subcategories } = useContext(InventoryContext);

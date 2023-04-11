@@ -10,6 +10,7 @@ class ItemsController < ApplicationController
     end
 
     def show
+        # byebug
         item = Item.find(params[:id])
         render json: item, status: :ok
     end
@@ -33,5 +34,19 @@ class ItemsController < ApplicationController
             page: filtered_items.current_page,
             pages: filtered_items.total_pages
             }, status: :ok
+    end
+
+    def similar_products
+        item = Item.find(params[:id])
+        items = Item.where.not(id: params[:id]).where(category_id: item.category_id).paginate(page: params[:page], per_page: 4)
+        if (items.length < 4)
+            items = Item.where.not(id: params[:id]).where(category_id: [item.category_id, item.category.parent_category_id]).paginate(page: params[:page], per_page: 4)
+        end
+        puts items
+        render json: {
+            items: items,
+            page: items.current_page,
+            pages: items.total_pages
+        }, status: :ok
     end
 end

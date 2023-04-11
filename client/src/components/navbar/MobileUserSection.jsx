@@ -1,7 +1,7 @@
 import React, { useContext } from 'react'
 import { Disclosure } from '@headlessui/react'
 import { Link } from 'react-router-dom';
-import { UserContext } from '../App';
+import { UserContext } from '../../App';
 
 const userNavigation = [
     { name: 'Your Account', href: '/profile' },

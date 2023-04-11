@@ -1,5 +1,5 @@
 import React, { useContext } from "react";
-import { InventoryContext } from "../App";
+import { InventoryContext } from "../../App";
 import { Link } from "react-router-dom";
 
 function CategoryNav() {

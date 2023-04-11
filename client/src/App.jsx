@@ -1,27 +1,33 @@
 import { useState, useEffect, createContext } from "react";
-import { Navigate, Route, Routes, useNavigate } from "react-router-dom";
+import { Navigate, Route, Routes, useNavigate, useParams } from "react-router-dom";
 import Home from "./pages/Home";
 import Inventory from "./pages/Inventory";
 import Cart from "./pages/Cart";
 import Login from "./pages/Login";
 import TestPage from "./pages/TestPage";
 import Account from "./pages/Account";
-import Loading from "./pages/Loading";
+import Loading from "./components/Loading";
 import CategorySidebar from "./components/CategorySidebar";
 import InventoryGrid from "./components/InventoryGrid";
+import ProductDetails from "./pages/ProductDetails";
+import Nav from "./components/navbar/Nav";
+
 
 export const UserContext = createContext("");
 export const InventoryContext = createContext("");
 export const AppContext = createContext("");
 
 function App() {
+  const { category, page, itemId, itemName } = useParams()
   const [user, setUser] = useState(null);
   const [isLoggedIn, setIsLoggedIn] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const [inventory, setInventory] = useState([]);
+  const [product, setProduct] = useState(null)
   const [categories, setCategories] = useState([]);
   const [subcategories, setSubcategories] = useState([]);
   const [quotes, setQuotes] = useState([]);
+  const [cart, setCart] = useState(null)
   const navigate = useNavigate();
 
   // CHECK TO SEE IF USER IS LOGGED IN
@@ -112,6 +118,35 @@ function App() {
     });
   };
 
+  const getProduct = (item) => {
+    console.log(item)
+    fetch(`/api/items/${item}`).then((res) => {
+      if (res.ok) {
+        res.json().then((product) => {
+          setProduct(product)
+        })
+      } else {
+        res.json().then((data) => {
+          console.log(data)
+        })
+      }
+    })
+  }
+
+  const getSimilarProducts = (item, pg = 1) => {
+    fetch(`/api/similar-items/${item}/?page=${pg}`).then((res) => {
+      if (res.ok) {
+        res.json().then((product) => {
+          console.log(product)
+        })
+      } else {
+        res.json().then((data) => {
+          console.log(data)
+        })
+      }
+    })
+  }
+
   if (isLoggedIn === null || isLoading) return <Loading />;
 
   return (
@@ -119,17 +154,21 @@ function App() {
       <AppContext.Provider value={{ isLoading, setIsLoading }}>
         <UserContext.Provider
           value={{ user, setUser, isLoggedIn, setIsLoggedIn }}
-        >
+          >
           <InventoryContext.Provider
             value={{
               inventory,
               categories,
               subcategories,
+              product, 
+              getProduct,
+              getSimilarProducts,
               getSubcategories,
               filter,
               getInventory,
             }}
-          >
+            >
+            <Nav/>
             <Routes>
               <Route
                 path="/login"
@@ -144,7 +183,8 @@ function App() {
                   <Route path=":page" element={<CategorySidebar />} />
                 </Route>
               </Route>
-              <Route path="/test" element={<Loading />} />
+              <Route path="/products/:itemId/:itemName" element={<ProductDetails/>} />
+              <Route path="/test" element={<TestPage/>} />
               <Route
                 path="/my-account"
                 element={isLoggedIn ? <Account /> : <Navigate to="/login" />}

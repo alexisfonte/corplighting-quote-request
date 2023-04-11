@@ -20,6 +20,12 @@ class QuoteItemsController < ApplicationController
         render json: new_quote_item, status: :ok
     end
 
+    def destroy
+        quote_item = QuoteItem.find(params[:id])
+        quote_item.destroy
+        head :no_content
+    end
+
     private
 
     def quote_item_params

@@ -1,7 +1,7 @@
 import React, { useState, useContext } from "react";
 import { useGoogleLogin } from "@react-oauth/google";
 import { UserContext } from "../App";
-import GoogleButton from "../components/GoogleButton";
+import GoogleButton from "../components/ui/GoogleButton";
 
 function Login() {
   const { setUser, setIsLoggedIn } = useContext(UserContext)

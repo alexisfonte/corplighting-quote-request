@@ -1,9 +1,10 @@
 Rails.application.routes.draw do
-  resources :users
-  resources :quote_items
-  resources :quotes
-  resources :categories, only: :index
-  resources :items
+  resources :users, only: [:show, :create, :update]
+  resources :quote_items, only: [:index, :show, :create, :update, :destroy]
+  resources :quotes, only: [:index, :show, :create, :update]
+  resources :categories, only: [:index]
+  resources :items, only: [:index, :show]
+  
   # route to test your configuration
   get '/hello', to: 'application#hello_world'
 
@@ -20,6 +21,7 @@ Rails.application.routes.draw do
 
   get '/inventory', to: 'items#browse'
   get '/categories/:path/items', to: 'items#filtered_items'
+  get '/similar-items/:id', to: 'items#similar_products'
 
   get '/categories/:path', to: 'categories#show'
 end

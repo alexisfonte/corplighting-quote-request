@@ -10,7 +10,7 @@ class QuotesController < ApplicationController
     end
 
     def create
-        quote = Quote.create!(user_id: 1, status: "draft")
+        quote = Quote.create!(user_id: params[:user_id], status: "draft")
         render json: quote, status: :created
     end
 
@@ -23,6 +23,6 @@ class QuotesController < ApplicationController
     private
 
     def quote_params
-        params.permit(:prep_date, :return_date, :status, :client_id, :venue_id)
+        params.permit(:prep_date, :return_date, :status, :client_id, :venue_id, :user_id)
     end
 end

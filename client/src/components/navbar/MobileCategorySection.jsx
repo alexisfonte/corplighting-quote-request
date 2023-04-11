@@ -1,7 +1,7 @@
 import React, { useContext } from "react";
 import { Link } from "react-router-dom";
 import { Disclosure } from "@headlessui/react";
-import { InventoryContext } from "../App";
+import { InventoryContext } from "../../App";
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
