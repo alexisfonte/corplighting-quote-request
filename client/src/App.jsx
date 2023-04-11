@@ -161,6 +161,7 @@ function App() {
               categories,
               subcategories,
               product, 
+              setSubcategories,
               getProduct,
               getSimilarProducts,
               getSubcategories,
@@ -168,7 +169,7 @@ function App() {
               getInventory,
             }}
             >
-            <Nav/>
+            {/* <Nav/> */}
             <Routes>
               <Route
                 path="/login"
@@ -178,7 +179,7 @@ function App() {
               />
               <Route path="/" element={<Home />} />
               <Route path="/browse" element={<Inventory />}>
-                <Route path="inventory" element={<InventoryGrid />} />
+                <Route path="all" element={<InventoryGrid />} />
                 <Route path=":category" element={<CategorySidebar />}>
                   <Route path=":page" element={<CategorySidebar />} />
                 </Route>

@@ -1,49 +1,52 @@
 import React, { useContext } from "react";
 import { Link, useParams } from "react-router-dom";
-import { HomeIcon } from "@heroicons/react/20/solid";
+import { HomeIcon, ChevronRightIcon } from "@heroicons/react/20/solid";
 import { InventoryContext } from "../../App";
 
 function Breadcrumbs() {
-  const { inventory, subcategories } = useContext(InventoryContext);
+  const { inventory, subcategories, setSubcategories } =
+    useContext(InventoryContext);
   const { category } = useParams();
+
+  function classNames(...classes) {
+    return classes.filter(Boolean).join(' ')
+  }
 
   return (
     <nav
-      className="flex border-b border-gray-200 bg-white"
+      className="flex m-auto max-w-[90rem] mt-4 mb-2 lg:mx-10 lg:mt-6 lg:mb-4"
       aria-label="Breadcrumb"
     >
-      <ol
-        role="list"
-        className="mx-auto flex w-full max-w-screen-xl space-x-4 px-4 sm:px-6 lg:px-8"
-      >
-        <li className="flex">
-          <div className="flex items-center">
+      <ol role="list" className="flex items-center space-x-4">
+        <li>
+          <div>
             <Link
-              to="/browse/inventory"
-              className="text-gray-400 hover:text-gray-500"
+              to="/browse/all"
+              onClick={() => setSubcategories([])}
+              className="text-xs lg:text-sm text-gray-500 hover:text-gray-700"
             >
-              <HomeIcon className="h-5 w-5 flex-shrink-0" aria-hidden="true" />
-              <span className="sr-only">Home</span>
+              Home
             </Link>
           </div>
         </li>
-        {subcategories.path.split(" > ").map((page) => (
-            <li key={page} className="flex">
+        {subcategories.path &&
+          subcategories.path.split(" > ").map((page, index) => (
+            <li key={page}>
               <div className="flex items-center">
-                <svg
-                  className="h-full w-6 flex-shrink-0 text-gray-200"
-                  viewBox="0 0 24 44"
-                  preserveAspectRatio="none"
-                  fill="currentColor"
+                <ChevronRightIcon
+                  className="h-4 w-4 lg:h-5 lg:w-5 flex-shrink-0 text-gray-400"
                   aria-hidden="true"
-                >
-                  <path d="M.293 0l22 22-22 22h1.414l22-22-22-22H.293z" />
-                </svg>
+                />
                 <Link
                   to={`/browse/${[subcategories.path.split(page)[0], page].join(
                     ""
                   )}`}
-                  className="ml-4 text-sm font-medium text-gray-500 hover:text-gray-700"
+                  className={classNames(
+                    subcategories.path.split(" > ").length - 1 == index 
+                    ? "font-medium text-primary" 
+                    : "text-gray-500 hover:text-gray-700",
+                    "ml-4 text-xs lg:text-sm"
+                    )}
                   aria-current={page == category ? "page" : undefined}
                 >
                   {page}

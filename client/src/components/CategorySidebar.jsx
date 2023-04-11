@@ -164,13 +164,13 @@ function CategorySidebar() {
           </Dialog>
         </Transition.Root>
 
-        <main className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        {/* <main className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className="flex items-baseline justify-between border-b border-gray-200 pt-12 pb-6">
             <h1 className="text-4xl font-bold tracking-tight text-gray-900">
               {title ? title : "All Products"}
-            </h1>
+            </h1> */}
             <div className="flex items-center">
-              <button
+              {/* <button
                 type="button"
                 className="-m-2 ml-5 p-2 text-gray-400 hover:text-gray-500 sm:ml-7"
                 onClick={() => setGridView(!gridView)}
@@ -186,18 +186,17 @@ function CategorySidebar() {
                     <Squares2X2Icon className="h-5 w-5" aria-hidden="true" />
                   </>
                 )}
-              </button>
-              <button
+              </button> */}
+              {/* <button
                 type="button"
                 className="-m-2 ml-4 p-2 text-gray-400 hover:text-gray-500 sm:ml-6 lg:hidden"
                 onClick={() => setMobileFiltersOpen(true)}
               >
                 <span className="sr-only">Filters</span>
                 <FunnelIcon className="h-5 w-5" aria-hidden="true" />
-              </button>
+              </button> */}
             </div>
           </div>
-          {subcategories.path && <Breadcrumbs />}
 
           <section aria-labelledby="products-heading" className="pt-0 pb-24">
             <h2 id="products-heading" className="sr-only">
@@ -223,8 +222,8 @@ function CategorySidebar() {
               </div>
             </div>
           </section>
-        </main>
-      </div>
+        {/* </main>
+      </div> */}
     </div>
   );
 }
