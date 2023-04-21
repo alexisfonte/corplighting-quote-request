@@ -8,13 +8,11 @@ function Logo({ divClass, linkClass, logoSize}) {
   return (
     <div className={divClass}>
         <Link to="/" className={linkClass}>
-        <span className="text-3xl font-bold leading-6 text-primary">Corp</span>
-        <span className="text-3xl font-bold leading-6 text-neutral-focus">
+        <span className={corpClass}>Corp</span>
+        <span className={lightingClass}>
           Lighting
         </span>
         </Link>
-      {/* <a href="#" className="-m-1.5 p-1.5">
-      </a> */}
     </div>
   );
 }

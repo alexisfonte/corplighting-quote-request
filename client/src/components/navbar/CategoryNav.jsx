@@ -8,7 +8,8 @@ function CategoryNav() {
   // console.log(categories)
 
   return (
-    <nav className="space-x-8 py-2" aria-label="Global">
+  categories.length &&
+      <nav className="space-x-8 py-2" aria-label="Global">
       <div className="flex justify-between xl:mx-80 lg:mx-60 md:mx-40 mx-10">
         {categories && categories.map((item) => (
           <Link
@@ -22,6 +23,7 @@ function CategoryNav() {
         ))}
       </div>
     </nav>
+  
   );
 }
 

@@ -2,10 +2,10 @@ import React from 'react'
 import MobileCategorySection from './MobileCategorySection'
 import MobileUserSection from './MobileUserSection'
 
-function Mobile() {
+function Mobile({showCat}) {
   return (
     <>
-    <MobileCategorySection/>
+    {showCat && <MobileCategorySection/>}
     <MobileUserSection/>
     </>
   )

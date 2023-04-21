@@ -3,10 +3,6 @@ import { Link } from "react-router-dom";
 import { Disclosure } from "@headlessui/react";
 import { InventoryContext } from "../../App";
 
-function classNames(...classes) {
-  return classes.filter(Boolean).join(" ");
-}
-
 function MobileCategorySection() {
   const { categories } = useContext(InventoryContext)
 
