@@ -1,5 +1,11 @@
 import { useState, useEffect, createContext } from "react";
-import { Navigate, Route, Routes, useNavigate, useParams } from "react-router-dom";
+import {
+  Navigate,
+  Route,
+  Routes,
+  useNavigate,
+  useParams,
+} from "react-router-dom";
 import Home from "./pages/Home";
 import Inventory from "./pages/Inventory";
 import Cart from "./pages/Cart";
@@ -12,22 +18,21 @@ import InventoryGrid from "./components/InventoryGrid";
 import ProductDetails from "./pages/ProductDetails";
 import Nav from "./components/navbar/Nav";
 
-
 export const UserContext = createContext("");
 export const InventoryContext = createContext("");
 export const AppContext = createContext("");
 
 function App() {
-  const { category, page, itemId, itemName } = useParams()
+  const { category, page, itemId, itemName } = useParams();
   const [user, setUser] = useState(null);
   const [isLoggedIn, setIsLoggedIn] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const [inventory, setInventory] = useState([]);
-  const [product, setProduct] = useState(null)
+  const [product, setProduct] = useState(null);
   const [categories, setCategories] = useState([]);
   const [subcategories, setSubcategories] = useState([]);
   const [quotes, setQuotes] = useState([]);
-  const [cart, setCart] = useState(null)
+  const [cart, setCart] = useState(null);
   const navigate = useNavigate();
 
   // CHECK TO SEE IF USER IS LOGGED IN
@@ -43,7 +48,6 @@ function App() {
         res.json().then((data) => {
           console.log(data);
           setIsLoggedIn(false);
-          // navigate('/login')
         });
       }
       getCategories();
@@ -106,9 +110,9 @@ function App() {
     fetch(`/api/categories/${path}`).then((res) => {
       if (res.ok) {
         res.json().then((category) => {
-          // console.log(category);
+          console.log(category);
           setSubcategories(category);
-          filter(category.path, pg);
+          filter(category.id, pg);
         });
       } else {
         res.json().then((data) => {
@@ -119,33 +123,33 @@ function App() {
   };
 
   const getProduct = (item) => {
-    console.log(item)
+    console.log(item);
     fetch(`/api/items/${item}`).then((res) => {
       if (res.ok) {
         res.json().then((product) => {
-          setProduct(product)
-        })
+          setProduct(product);
+        });
       } else {
         res.json().then((data) => {
-          console.log(data)
-        })
+          console.log(data);
+        });
       }
-    })
-  }
+    });
+  };
 
   const getSimilarProducts = (item, pg = 1) => {
     fetch(`/api/similar-items/${item}/?page=${pg}`).then((res) => {
       if (res.ok) {
         res.json().then((product) => {
-          console.log(product)
-        })
+          console.log(product);
+        });
       } else {
         res.json().then((data) => {
-          console.log(data)
-        })
+          console.log(data);
+        });
       }
-    })
-  }
+    });
+  };
 
   if (isLoggedIn === null || isLoading) return <Loading />;
 
@@ -154,13 +158,13 @@ function App() {
       <AppContext.Provider value={{ isLoading, setIsLoading }}>
         <UserContext.Provider
           value={{ user, setUser, isLoggedIn, setIsLoggedIn }}
-          >
+        >
           <InventoryContext.Provider
             value={{
               inventory,
               categories,
               subcategories,
-              product, 
+              product,
               setSubcategories,
               getProduct,
               getSimilarProducts,
@@ -168,29 +172,30 @@ function App() {
               filter,
               getInventory,
             }}
-            >
+          >
             {/* <Nav/> */}
             <Routes>
               <Route
                 path="/login"
                 element={
-                  !isLoggedIn ? <Login /> : <Navigate to="/browse/inventory" />
+                  !isLoggedIn ? <Login /> : <Navigate to="/browse" />
                 }
               />
               <Route path="/" element={<Home />} />
-              <Route path="/browse" element={<Inventory />}>
-                <Route path="all" element={<InventoryGrid />} />
-                <Route path=":category" element={<CategorySidebar />}>
-                  <Route path=":page" element={<CategorySidebar />} />
-                </Route>
+              <Route element={<Inventory />}>
+                <Route path="/browse" element={<CategorySidebar />} />
+                <Route path="/search" element={<CategorySidebar />} />
               </Route>
-              <Route path="/products/:itemId/:itemName" element={<ProductDetails/>} />
-              <Route path="/test" element={<TestPage/>} />
+              <Route
+                path="/products/:itemName"
+                element={<ProductDetails />}
+              />
+              <Route path="/cart" element={<Cart />} />
               <Route
                 path="/my-account"
                 element={isLoggedIn ? <Account /> : <Navigate to="/login" />}
               />
-              <Route path="/cart" element={<Cart />} />
+              <Route path="/test" element={<Inventory />} />
             </Routes>
           </InventoryContext.Provider>
         </UserContext.Provider>

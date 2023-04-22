@@ -52,7 +52,7 @@ function Inventory() {
           </button>
         </div>
       </div>
-      <Outlet />
+      <CategorySidebar mobileFiltersOpen={mobileFiltersOpen} setMobileFiltersOpen={setMobileFiltersOpen} />
     </div>
             </>
   );

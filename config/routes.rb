@@ -20,8 +20,8 @@ Rails.application.routes.draw do
   post '/verify', to: 'users#verify_edit'
 
   get '/inventory', to: 'items#browse'
-  get '/categories/:path/items', to: 'items#filtered_items'
+  get '/categories/:category_id/items', to: 'items#filtered_items'
   get '/similar-items/:id', to: 'items#similar_products'
 
-  get '/categories/:path', to: 'categories#show'
+  get '/categories/:id', to: 'categories#show'
 end
