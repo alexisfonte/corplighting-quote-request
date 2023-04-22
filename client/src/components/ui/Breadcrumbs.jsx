@@ -11,7 +11,7 @@ function Breadcrumbs() {
   function classNames(...classes) {
     return classes.filter(Boolean).join(' ')
   }
-
+  console.log(subcategories)
   return (
     <nav
       className="flex m-auto max-w-[90rem] mt-4 mb-2 lg:mx-10 lg:mt-6 lg:mb-4"
@@ -22,34 +22,32 @@ function Breadcrumbs() {
           <div>
             <Link
               to="/browse/all"
-              onClick={() => setSubcategories([])}
+              onClick={() => setPath([])}
               className="text-xs lg:text-sm text-gray-500 hover:text-gray-700"
             >
               Home
             </Link>
           </div>
         </li>
-        {subcategories.path &&
-          subcategories.path.split(" > ").map((page, index) => (
-            <li key={page}>
+        {subcategories.breadcrumb &&
+          subcategories.breadcrumb.map((page, index) => (
+            <li key={page.id}>
               <div className="flex items-center">
                 <ChevronRightIcon
                   className="h-4 w-4 lg:h-5 lg:w-5 flex-shrink-0 text-gray-400"
                   aria-hidden="true"
                 />
                 <Link
-                  to={`/browse/${[subcategories.path.split(page)[0], page].join(
-                    ""
-                  )}`}
+                  to={`/browse?category=${page.id}`}
                   className={classNames(
-                    subcategories.path.split(" > ").length - 1 == index 
+                    subcategories.breadcrumb.length - 1 == index 
                     ? "font-medium text-primary" 
                     : "text-gray-500 hover:text-gray-700",
                     "ml-4 text-xs lg:text-sm"
                     )}
-                  aria-current={page == category ? "page" : undefined}
+                  aria-current={page.name == category ? "page" : undefined}
                 >
-                  {page}
+                  {page.name}
                 </Link>
               </div>
             </li>

@@ -3,9 +3,7 @@ import { InventoryContext } from "../../App";
 import { Link } from "react-router-dom";
 
 function CategoryNav() {
-  const { categories, filter } = useContext(InventoryContext);
-
-  // console.log(categories)
+  const { categories } = useContext(InventoryContext);
 
   return (
   categories.length &&
@@ -14,7 +12,7 @@ function CategoryNav() {
         {categories && categories.map((item) => (
           <Link
             key={item.id}
-            to={`/browse/${item.path}`}
+            to={`/browse?category=${item.id}`}
             className="text-gray-900 inline-flex items-center py-2 px-3 text-sm font-medium"
             aria-current={item.current ? "page" : undefined}
           >

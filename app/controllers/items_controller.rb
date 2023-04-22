@@ -10,7 +10,6 @@ class ItemsController < ApplicationController
     end
 
     def show
-        # byebug
         item = Item.find(params[:id])
         render json: item, status: :ok
     end
@@ -26,13 +25,23 @@ class ItemsController < ApplicationController
     end
 
     # get all items for the filtered category
+    # def filtered_items
+    #     category_name = params[:path]
+    #     filtered_items = Category.filter(category_name).paginate(page: params[:page], per_page: 20)
+    #     render json: {
+    #         inventory: filtered_items,
+    #         page: filtered_items.current_page,
+    #         pages: filtered_items.total_pages
+    #         }, status: :ok
+    # end
+
     def filtered_items
-        category_name = params[:path]
-        filtered_items = Category.filter(category_name).paginate(page: params[:page], per_page: 20)
+        category = Category.find(params[:category_id])
+        items = Item.for_filtered_category(category).customer_inventory.paginate(page: params[:page], per_page: 20)
         render json: {
-            inventory: filtered_items,
-            page: filtered_items.current_page,
-            pages: filtered_items.total_pages
+            inventory: items,
+            page: items.current_page,
+            pages: items.total_pages
             }, status: :ok
     end
 

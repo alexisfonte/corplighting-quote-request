@@ -3,15 +3,16 @@ import { ArrowLongLeftIcon, ArrowLongRightIcon } from '@heroicons/react/20/solid
 import { InventoryContext } from '../../App'
 import { Link, useParams } from 'react-router-dom'
 
-function Pagnation() {
+function Pagnation({ category }) {
   const { inventory, getInventory } = useContext(InventoryContext);
   const [currentPage, setCurrentPage] = useState(1)
-  const { category, page } = useParams();
+  // const { category, page } = useParams();
   // console.log(inventory.pages)
 
     useEffect(() => {
       setCurrentPage(inventory.page)
-  }, [page]);
+      console.log(currentPage)
+  }, [inventory]);
 
   return (
     <nav
@@ -24,7 +25,7 @@ function Pagnation() {
         </p>
       </div>
       <div className="flex flex-1 justify-between sm:justify-end">
-        <Link to={`/browse/${category}/${(currentPage != 1) ? `${(currentPage - 1)}` : '#'}`}
+        <Link to={(currentPage != 1) ? category ? `?category=${category}&page=${(currentPage - 1)}` :`?page=${(currentPage - 1)}` : '#'}
         onClick={() => setCurrentPage(currentPage --)}
         className="relative inline-flex items-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus-visible:outline-offset-0"
         >
@@ -32,7 +33,7 @@ function Pagnation() {
           Previous
         </Link>
         <Link
-        to={(currentPage != inventory.pages) ? `${(currentPage + 1)}` : '#'}
+        to={(currentPage != inventory.pages) ? category ? `?category=${category}&page=${(currentPage + 1)}` :`?page=${(currentPage + 1)}` : '#'}
         onClick={() => setCurrentPage(currentPage ++)}
         className="relative ml-3 inline-flex items-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus-visible:outline-offset-0"
         >
