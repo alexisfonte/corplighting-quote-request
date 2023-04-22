@@ -6,12 +6,7 @@ import { InventoryContext } from "../App";
 
 function InventoryGrid() {
   const [open, setOpen] = useState(false);
-
   const { inventory, getInventory, setProduct } = useContext(InventoryContext);
-  // console.log(inventory);
-  // useEffect(() => {
-  //   getInventory();
-  // }, []);
 
   function closeModal() {
     setOpen(false);
@@ -28,7 +23,6 @@ function InventoryGrid() {
         <div className="-mx-px grid grid-cols-2 border-l border-gray-200 sm:mx-0 md:grid-cols-3 lg:grid-cols-4">
           {inventory.length != 0 &&
             inventory.inventory.map((product) => (
-              <>
                 <div
                   key={product.id}
                   className="group relative flex flex-col-reverse justify-between border-r border-b border-gray-200 p-4 sm:p-6"
@@ -53,18 +47,8 @@ function InventoryGrid() {
                         Quick View
                       </Link>
                     </div>
-                    {/* <div className="flex  p-4">
-                      <button
-                        className="relative z-10 w-full rounded-md bg-white bg-opacity-75 py-2 px-4 text-sm text-gray-900 opacity-0 focus:opacity-100 group-hover:opacity-100"
-                        onClick={openModal}
-                      >
-                        Quick View
-                      </button>
-                    </div> */}
                   </div>
                 </div>
-                {/* <Quickview open={open} closeModal={closeModal} /> */}
-              </>
             ))}
         </div>
       </div>
