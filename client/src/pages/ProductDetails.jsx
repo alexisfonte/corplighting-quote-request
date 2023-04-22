@@ -19,100 +19,42 @@ import {
 } from "@heroicons/react/24/outline";
 import { StarIcon } from "@heroicons/react/20/solid";
 import { InventoryContext } from "../App";
-import { useParams } from "react-router-dom";
+import { Link, useLocation, useParams } from "react-router-dom";
 import QuantityInput from "../components/form/QuantityInput";
 import Nav from "../components/navbar/Nav";
 import Breadcrumbs from "../components/ui/Breadcrumbs";
 
-const product = {
-  name: "Zip Tote Basket",
-  price: "$140",
-  rating: 4,
-  images: [
-    {
-      id: 1,
-      name: "Angled view",
-      src: "https://tailwindui.com/img/ecommerce-images/product-page-03-product-01.jpg",
-      alt: "Angled front view with bag zipped and handles upright.",
-    },
-    // More images...
-  ],
-  colors: [
-    {
-      name: "Washed Black",
-      bgColor: "bg-gray-700",
-      selectedColor: "ring-gray-700",
-    },
-    { name: "White", bgColor: "bg-white", selectedColor: "ring-gray-400" },
-    {
-      name: "Washed Gray",
-      bgColor: "bg-gray-500",
-      selectedColor: "ring-gray-500",
-    },
-  ],
-  description: `
-      The Zip Tote Basket is the perfect midpoint between shopping tote and comfy backpack. With convertible straps, you can hand carry, should sling, or backpack this convenient and spacious bag. The zip top and durable canvas construction keeps your goods protected for all-day use.
-    `,
-  details: [
-    {
-      name: "Features",
-      items: [
-        "Multiple strap configurations",
-        "Spacious interior with top zip",
-        "Leather handle and tabs",
-        "Interior dividers",
-        "Stainless strap loops",
-        "Double stitched construction",
-        "Water-resistant",
-      ],
-    },
-    // More sections...
-  ],
-};
-const relatedProducts = [
-  {
-    id: 1,
-    name: "Zip Tote Basket",
-    color: "White and black",
-    href: "#",
-    imageSrc:
-      "https://tailwindui.com/img/ecommerce-images/product-page-03-related-product-01.jpg",
-    imageAlt:
-      "Front of zip tote bag with white canvas, black canvas straps and handle, and black zipper pulls.",
-    price: "$140",
-  },
-  // More products...
-];
 function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
 }
 
 function ProductDetails() {
-  const { getProduct, getSimilarProducts } = useContext(InventoryContext);
+  const location = useLocation();
+  const queryParams = new URLSearchParams(location.search);
+  const itemId = queryParams.get('pid')
+  const { getProduct, getSimilarProducts, product, similarProducts } = useContext(InventoryContext);
   const [open, setOpen] = useState(false);
-  const [selectedColor, setSelectedColor] = useState(product.colors[0]);
+  console.log(similarProducts)
 
-  const { itemId } = useParams();
   useEffect(() => {
     // console.log(itemId)
     if (itemId) {
       getProduct(itemId);
       getSimilarProducts(itemId);
     }
-    console.log(product);
-  }, []);
+  }, [itemId]);
 
   return (
     <>
     <Nav/>
     <Breadcrumbs/>
-    <main className="mx-auto max-w-7xl sm:px-6 sm:pt-16 lg:px-8">
+    {product && product.name && <main className="mx-auto max-w-7xl sm:px-6 sm:pt-16 lg:px-8">
       <div className="mx-auto max-w-2xl lg:max-w-none">
         <div className="lg:grid lg:grid-cols-2 lg:items-start lg:gap-x-8">
           <div className="aspect-h-1 aspect-w-1 w-full">
             <img
-              src={product.images[0].src}
-              alt={product.images[0].alt}
+              src={product.image_id}
+              alt={product.name}
               className="h-full w-full object-cover object-center sm:rounded-lg"
               />
           </div>
@@ -148,7 +90,7 @@ function ProductDetails() {
               </h2>
 
               <div className="divide-y divide-gray-200 border-t">
-                {product.details.map((detail) => (
+                {/* {product.details.map((detail) => (
                     <Disclosure as="div" key={detail.name}>
                     {({ open }) => (
                         <>
@@ -190,28 +132,29 @@ function ProductDetails() {
                       </>
                     )}
                   </Disclosure>
-                ))}
+                ))} */}
               </div>
             </section>
           </div>
         </div>
 
-        <section
+        {similarProducts.length != 0 && <section
           aria-labelledby="related-heading"
           className="mt-10 border-t border-gray-200 px-4 py-16 sm:px-0"
           >
           <h2 id="related-heading" className="text-xl font-bold text-gray-900">
-            Customers also bought
+            Customers also viewed
           </h2>
 
           <div className="mt-8 grid grid-cols-1 gap-y-12 sm:grid-cols-2 sm:gap-x-6 lg:grid-cols-4 xl:gap-x-8">
-            {relatedProducts.map((product) => (
-                <div key={product.id}>
+            {similarProducts.items.map((product) => (
+              <div key={product.id}>
                 <div className="relative">
+                <Link to={`/p/${product.name}?pid=${product.id}`}>
                   <div className="relative h-72 w-full overflow-hidden rounded-lg">
                     <img
-                      src={product.imageSrc}
-                      alt={product.imageAlt}
+                      src={product.image_id}
+                      alt={product.name}
                       className="h-full w-full object-cover object-center"
                       />
                   </div>
@@ -219,19 +162,8 @@ function ProductDetails() {
                     <h3 className="text-sm font-medium text-gray-900">
                       {product.name}
                     </h3>
-                    <p className="mt-1 text-sm text-gray-500">
-                      {product.color}
-                    </p>
                   </div>
-                  <div className="absolute inset-x-0 top-0 flex h-72 items-end justify-end overflow-hidden rounded-lg p-4">
-                    <div
-                      aria-hidden="true"
-                      className="absolute inset-x-0 bottom-0 h-36 bg-gradient-to-t from-black opacity-50"
-                      />
-                    <p className="relative text-lg font-semibold text-white">
-                      {product.price}
-                    </p>
-                  </div>
+                      </Link>
                 </div>
                 <div className="mt-6">
                   <a
@@ -244,9 +176,9 @@ function ProductDetails() {
               </div>
             ))}
           </div>
-        </section>
+        </section>}
       </div>
-    </main>
+    </main>}
             </>
   );
 }

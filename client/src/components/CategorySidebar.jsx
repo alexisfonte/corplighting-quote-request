@@ -13,12 +13,11 @@ import InventoryGrid from "./InventoryGrid";
 import { AppContext, InventoryContext } from "../App";
 import { Link, useParams, useLocation } from "react-router-dom";
 
-function CategorySidebar({ mobileFiltersOpen, setMobileFiltersOpen}) {
+function CategorySidebar({ mobileFiltersOpen, setMobileFiltersOpen, gridView}) {
   const location = useLocation();
   const queryParams = new URLSearchParams(location.search);
   const category = queryParams.get('category');
   const page = queryParams.get('page') || 1;
-  // console.log(page)
 
   const params = useParams();
   // console.log(params)
@@ -29,7 +28,6 @@ function CategorySidebar({ mobileFiltersOpen, setMobileFiltersOpen}) {
 
   // const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false);
   const [filters, setFilters] = useState([]);
-  const [gridView, setGridView] = useState(true);
 
   useEffect(() => {
     // console.log(category)
