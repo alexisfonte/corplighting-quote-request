@@ -24,65 +24,6 @@ import QuantityInput from "../components/form/QuantityInput";
 import Nav from "../components/navbar/Nav";
 import Breadcrumbs from "../components/ui/Breadcrumbs";
 
-// const product = {
-//   name: "Zip Tote Basket",
-//   price: "$140",
-//   rating: 4,
-//   images: [
-//     {
-//       id: 1,
-//       name: "Angled view",
-//       src: "https://tailwindui.com/img/ecommerce-images/product-page-03-product-01.jpg",
-//       alt: "Angled front view with bag zipped and handles upright.",
-//     },
-//     // More images...
-//   ],
-//   colors: [
-//     {
-//       name: "Washed Black",
-//       bgColor: "bg-gray-700",
-//       selectedColor: "ring-gray-700",
-//     },
-//     { name: "White", bgColor: "bg-white", selectedColor: "ring-gray-400" },
-//     {
-//       name: "Washed Gray",
-//       bgColor: "bg-gray-500",
-//       selectedColor: "ring-gray-500",
-//     },
-//   ],
-//   description: `
-//       The Zip Tote Basket is the perfect midpoint between shopping tote and comfy backpack. With convertible straps, you can hand carry, should sling, or backpack this convenient and spacious bag. The zip top and durable canvas construction keeps your goods protected for all-day use.
-//     `,
-//   details: [
-//     {
-//       name: "Features",
-//       items: [
-//         "Multiple strap configurations",
-//         "Spacious interior with top zip",
-//         "Leather handle and tabs",
-//         "Interior dividers",
-//         "Stainless strap loops",
-//         "Double stitched construction",
-//         "Water-resistant",
-//       ],
-//     },
-//     // More sections...
-//   ],
-// };
-const relatedProducts = [
-  {
-    id: 1,
-    name: "Zip Tote Basket",
-    color: "White and black",
-    href: "#",
-    imageSrc:
-      "https://tailwindui.com/img/ecommerce-images/product-page-03-related-product-01.jpg",
-    imageAlt:
-      "Front of zip tote bag with white canvas, black canvas straps and handle, and black zipper pulls.",
-    price: "$140",
-  },
-  // More products...
-];
 function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
 }
