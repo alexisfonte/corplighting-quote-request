@@ -1,7 +1,7 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import CategorySidebar from "../components/CategorySidebar";
 import Nav from "../components/navbar/Nav";
-import { Outlet } from "react-router-dom";
+import { Link, Outlet, useLocation } from "react-router-dom";
 import Breadcrumbs from "../components/ui/Breadcrumbs";
 import { InventoryContext } from "../App";
 import {
@@ -14,6 +14,19 @@ function Inventory() {
   const { subcategories } = useContext(InventoryContext);
   const [gridView, setGridView] = useState(true);
   const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false);
+  
+  useEffect(() => {
+    const savedGridView = localStorage.getItem("gridView");
+    if (savedGridView) {
+      setGridView(savedGridView === "true");
+    }
+  }, []);
+
+  const toggleView = () => {
+    const newGridView = !gridView;
+    setGridView(newGridView);
+    localStorage.setItem("gridView", newGridView);
+  };
 
   return (
     <>
@@ -28,7 +41,7 @@ function Inventory() {
           <button
             type="button"
             className="-m-2 ml-5 p-2 text-gray-400 hover:text-gray-500 sm:ml-7"
-            onClick={() => setGridView(!gridView)}
+            onClick={toggleView}
             >
             {gridView ? (
               <>
@@ -52,7 +65,7 @@ function Inventory() {
           </button>
         </div>
       </div>
-      <CategorySidebar mobileFiltersOpen={mobileFiltersOpen} setMobileFiltersOpen={setMobileFiltersOpen} />
+      <CategorySidebar mobileFiltersOpen={mobileFiltersOpen} setMobileFiltersOpen={setMobileFiltersOpen} gridView={gridView}/>
     </div>
             </>
   );

@@ -12,7 +12,8 @@ function InventoryList() {
   return (
     <div className="overflow-hidden rounded-md bg-white shadow">
       <ul role="list" className="divide-y divide-gray-200">
-        {inventory.map((item) => (
+        {inventory.length != 0 &&
+            inventory.inventory.map((item) => (
           <li key={item.id} className="flex justify-between px-6 py-4 w-full">
             <div className="flex">
             <div className="mb-4 flex-shrink-0 sm:mb-0 sm:mr-4">
