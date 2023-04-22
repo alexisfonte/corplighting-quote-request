@@ -28,7 +28,8 @@ function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const [inventory, setInventory] = useState([]);
-  const [product, setProduct] = useState(null);
+  const [product, setProduct] = useState([]);
+  const [similarProducts, setSimilarProducts] = useState([])
   const [categories, setCategories] = useState([]);
   const [subcategories, setSubcategories] = useState([]);
   const [quotes, setQuotes] = useState([]);
@@ -123,7 +124,7 @@ function App() {
   };
 
   const getProduct = (item) => {
-    console.log(item);
+    // console.log(item);
     fetch(`/api/items/${item}`).then((res) => {
       if (res.ok) {
         res.json().then((product) => {
@@ -141,7 +142,7 @@ function App() {
     fetch(`/api/similar-items/${item}/?page=${pg}`).then((res) => {
       if (res.ok) {
         res.json().then((product) => {
-          console.log(product);
+          setSimilarProducts(product)
         });
       } else {
         res.json().then((data) => {
@@ -165,6 +166,7 @@ function App() {
               categories,
               subcategories,
               product,
+              similarProducts,
               setSubcategories,
               getProduct,
               getSimilarProducts,
@@ -187,7 +189,7 @@ function App() {
                 <Route path="/search" element={<CategorySidebar />} />
               </Route>
               <Route
-                path="/products/:itemName"
+                path="/p/:product_name"
                 element={<ProductDetails />}
               />
               <Route path="/cart" element={<Cart />} />

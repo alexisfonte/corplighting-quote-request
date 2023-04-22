@@ -5,20 +5,11 @@ import Quickview from "../components/Quickview";
 import { InventoryContext } from "../App";
 
 function InventoryGrid() {
-  const [open, setOpen] = useState(false);
   const { inventory, getInventory, setProduct } = useContext(InventoryContext);
 
-  function closeModal() {
-    setOpen(false);
-  }
-
-  function openModal() {
-    setOpen(true);
-  }
   return (
     <div className="bg-white -z-20">
       <div className="mx-auto max-w-7xl overflow-hidden ">
-        {/* <Breadcrumbs/> */}
         <h2 className="sr-only">Products</h2>
         <div className="-mx-px grid grid-cols-2 border-l border-gray-200 sm:mx-0 md:grid-cols-3 lg:grid-cols-4">
           {inventory.length != 0 &&
@@ -41,7 +32,7 @@ function InventoryGrid() {
                     />
                     <div className="flex items-end p-4">
                       <Link
-                        to={`/products/${product.id}/${product.name}`}
+                        to={`/p/${product.name}?pid=${product.id}`}
                         className="text-center z-10 w-full items-center rounded-md bg-white bg-opacity-75 py-2 px-4 text-sm text-gray-900 opacity-0 focus:opacity-100 group-hover:opacity-100"
                       >
                         Quick View
