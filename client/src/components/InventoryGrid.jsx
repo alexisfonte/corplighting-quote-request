@@ -32,7 +32,7 @@ function InventoryGrid() {
                     />
                     <div className="flex items-end p-4">
                       <Link
-                        to={`/p/${product.name}?pid=${product.id}`}
+                        to={`/p/${encodeURIComponent(product.name)}?pid=${product.id}`}
                         className="text-center z-10 w-full items-center rounded-md bg-white bg-opacity-75 py-2 px-4 text-sm text-gray-900 opacity-0 focus:opacity-100 group-hover:opacity-100"
                       >
                         Quick View
