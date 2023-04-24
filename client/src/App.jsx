@@ -129,6 +129,7 @@ function App() {
       if (res.ok) {
         res.json().then((product) => {
           setProduct(product);
+          setSubcategories(product.category);
         });
       } else {
         res.json().then((data) => {

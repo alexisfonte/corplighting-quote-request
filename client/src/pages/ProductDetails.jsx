@@ -34,10 +34,9 @@ function ProductDetails() {
   const itemId = queryParams.get('pid')
   const { getProduct, getSimilarProducts, product, similarProducts } = useContext(InventoryContext);
   const [open, setOpen] = useState(false);
-  console.log(similarProducts)
+  console.log(product)
 
   useEffect(() => {
-    // console.log(itemId)
     if (itemId) {
       getProduct(itemId);
       getSimilarProducts(itemId);
@@ -150,7 +149,7 @@ function ProductDetails() {
             {similarProducts.items.map((product) => (
               <div key={product.id}>
                 <div className="relative">
-                <Link to={`/p/${product.name}?pid=${product.id}`}>
+                <Link to={`/p/${encodeURIComponent(product.name)}?pid=${product.id}`}>
                   <div className="relative h-72 w-full overflow-hidden rounded-lg">
                     <img
                       src={product.image_id}

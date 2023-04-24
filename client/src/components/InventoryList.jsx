@@ -16,7 +16,7 @@ function InventoryList() {
         {inventory.length != 0 &&
             inventory.inventory.map((item) => (
           <li key={item.id} className="flex ">
-            <Link to={`/p/${item.name}?pid=${item.id}`} className="flex justify-between px-6 py-4 w-full">
+            <Link to={`/p/${encodeURIComponent(item.name)}?pid=${item.id}`} className="flex justify-between px-6 py-4 w-full">
             <div className="flex">
             <div className="mb-4 flex-shrink-0 sm:mb-0 sm:mr-4">
               <img src={item.image_id} alt={item.name} className="flex h-16 w-16 border border-neutral bg-white text-gray-300"/>
