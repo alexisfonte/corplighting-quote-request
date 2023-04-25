@@ -31,9 +31,9 @@ class CartsController < ApplicationController
     end
     
     def update_cart_item_quantity
-        cart_item = @cart.cart_items.find(params[:id])
+        cart_item = @cart.cart_items.find_by(item_id: params[:id])
         cart_item.update(quantity: params[:quantity].to_i)
-        render json: { cart_item: CartItemSerializer.new(cart_item) }
+        render json: { notice: "#{cart_item.item.name} updated", cart: CartSerializer.new(@cart) }
     end
     
     private

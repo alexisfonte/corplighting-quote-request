@@ -1,35 +1,8 @@
 import { Fragment, useContext, useEffect } from "react";
-import {
-  MagnifyingGlassIcon,
-  ShoppingBagIcon,
-} from "@heroicons/react/24/outline";
+import { ShoppingBagIcon } from "@heroicons/react/24/outline";
 import { Popover, Transition } from "@headlessui/react";
 import { UserContext } from "../../App";
 import { Link } from "react-router-dom";
-
-const products = [
-  {
-    id: 1,
-    name: "Throwback Hip Bag",
-    href: "#",
-    color: "Salmon",
-    imageSrc:
-      "https://tailwindui.com/img/ecommerce-images/shopping-cart-page-04-product-01.jpg",
-    imageAlt:
-      "Salmon orange fabric pouch with match zipper, gray zipper pull, and adjustable hip belt.",
-  },
-  {
-    id: 2,
-    name: "Medium Stuff Satchel",
-    href: "#",
-    color: "Blue",
-    imageSrc:
-      "https://tailwindui.com/img/ecommerce-images/shopping-cart-page-04-product-02.jpg",
-    imageAlt:
-      "Front of satchel with blue canvas body, black straps and handle, drawstring top, and front zipper pouch.",
-  },
-  // More products...
-];
 
 function CartPopover() {
   const { cart, setCart } = useContext(UserContext);
@@ -68,6 +41,7 @@ function CartPopover() {
                 cart.map((product) => (
                   <li key={product.item.id} className="flex items-center py-6">
                     <Link
+                    className="flex"
                       to={`/p/${encodeURIComponent(product.item.name)}?pid=${
                         product.item.id
                       }`}
@@ -88,21 +62,13 @@ function CartPopover() {
                 ))}
             </ul>
 
-            <button
-              type="submit"
-              className="w-full rounded-md border border-transparent bg-indigo-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 focus:ring-offset-gray-50"
-            >
-              Checkout
-            </button>
-
-            <p className="mt-6 text-center">
-              <a
-                href="#"
-                className="text-sm font-medium text-indigo-600 hover:text-indigo-500"
+            <button className="w-full rounded-md border border-transparent bg-indigo-600 px-4 py-2 text-sm text-center font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 focus:ring-offset-gray-50">
+              <Link
+                to="/cart"
               >
                 View Shopping Bag
-              </a>
-            </p>
+              </Link>
+            </button>
           </form>
         </Popover.Panel>
       </Transition>

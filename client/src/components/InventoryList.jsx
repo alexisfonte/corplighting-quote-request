@@ -2,9 +2,6 @@ import React, {useContext} from "react";
 import { InventoryContext } from "../App";
 import { Link } from "react-router-dom";
 
-
-
-
 function InventoryList() {
   const {inventory} = useContext(InventoryContext)
 

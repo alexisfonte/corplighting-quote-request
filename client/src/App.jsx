@@ -190,13 +190,31 @@ function App() {
     
   };
 
+  const handleUpdateCart = (productId, quantity) => {
+    fetch(`/api/cart/update/${productId}`, {
+      method: "PATCH",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        quantity: quantity
+      }),
+    }).then((res) => {
+      if (res.ok) {
+        res.json().then((cart) => {
+          console.log(cart)
+          // setCart(cart.cart)
+          getCart();
+        });
+      }
+    });
+  }
+
   if (isLoggedIn === null || isLoading) return <Loading />;
 
   return (
     <div>
       <AppContext.Provider value={{ isLoading, setIsLoading }}>
         <UserContext.Provider
-          value={{ user, setUser, isLoggedIn, setIsLoggedIn, cart, setCart, handleAddToCart }}
+          value={{ user, setUser, isLoggedIn, setIsLoggedIn, cart, setCart, handleAddToCart, handleUpdateCart }}
         >
           <InventoryContext.Provider
             value={{
