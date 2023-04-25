@@ -1,5 +1,6 @@
 class Item < ApplicationRecord
     belongs_to :category
+    has_many :cart_items
     # has_many :quote_items
     # has_many :quotes, through: :quote_items
 
