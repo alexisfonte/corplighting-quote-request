@@ -1,9 +1,11 @@
-import { Fragment } from "react";
+import { Fragment, useContext, useEffect } from "react";
 import {
   MagnifyingGlassIcon,
   ShoppingBagIcon,
 } from "@heroicons/react/24/outline";
 import { Popover, Transition } from "@headlessui/react";
+import { UserContext } from "../../App";
+import { Link } from "react-router-dom";
 
 const products = [
   {
@@ -30,6 +32,12 @@ const products = [
 ];
 
 function CartPopover() {
+  const { cart, setCart } = useContext(UserContext);
+
+  useEffect(() => {
+    console.log("reload");
+  }, [cart]);
+
   return (
     <Popover className="ml-4 flow-root text-sm lg:relative lg:ml-8">
       <Popover.Button className="group -m-2 flex items-center p-2">
@@ -38,7 +46,7 @@ function CartPopover() {
           aria-hidden="true"
         />
         <span className="ml-2 text-sm font-medium text-gray-700 group-hover:text-gray-800">
-          0
+          {cart.length}
         </span>
         <span className="sr-only">items in cart, view bag</span>
       </Popover.Button>
@@ -56,21 +64,28 @@ function CartPopover() {
 
           <form className="mx-auto max-w-2xl px-4">
             <ul role="list" className="divide-y divide-gray-200">
-              {products.map((product) => (
-                <li key={product.id} className="flex items-center py-6">
-                  <img
-                    src={product.imageSrc}
-                    alt={product.imageAlt}
-                    className="h-16 w-16 flex-none rounded-md border border-gray-200"
-                  />
-                  <div className="ml-4 flex-auto">
-                    <h3 className="font-medium text-gray-900">
-                      <a href={product.href}>{product.name}</a>
-                    </h3>
-                    <p className="text-gray-500">{product.color}</p>
-                  </div>
-                </li>
-              ))}
+              {cart.length > 0 &&
+                cart.map((product) => (
+                  <li key={product.item.id} className="flex items-center py-6">
+                    <Link
+                      to={`/p/${encodeURIComponent(product.item.name)}?pid=${
+                        product.item.id
+                      }`}
+                    >
+                      <img
+                        src={product.item.image_id}
+                        alt={product.item.name}
+                        className="h-16 w-16 flex-none rounded-md border border-gray-200"
+                      />
+                      <div className="ml-4 flex-auto">
+                        <h3 className="font-medium text-gray-900">
+                          {product.item.name}
+                        </h3>
+                        <p className="text-gray-500">{product.quantity}</p>
+                      </div>
+                    </Link>
+                  </li>
+                ))}
             </ul>
 
             <button
