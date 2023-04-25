@@ -19,15 +19,15 @@ class CartsController < ApplicationController
     end
     
     def remove_from_cart
-        item = Item.find(params[:id])
-        @cart.remove_item(item)
+        cart_item = @cart.cart_items.find_by(item_id: params[:id])
+        cart_item.destroy
         if current_user
         @cart.user = current_user
         @cart.save
         else
         session[:cart] = @cart.serialize
         end
-        render json: { notice: "#{item.name} removed from cart", cart: CartSerializer.new(@cart) }
+        render json: { notice: "#{cart_item.item.name} has been removed from cart", cart: CartSerializer.new(@cart) }
     end
     
     def update_cart_item_quantity

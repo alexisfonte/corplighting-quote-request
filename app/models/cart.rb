@@ -12,10 +12,6 @@ class Cart < ApplicationRecord
         end
     end
     
-    def remove_item(product)
-        cart_items.reject!{ |item| item.item_id == product.id }
-    end
-    
     def self.build_from_hash(hash)
         cart = Cart.new
         hash["cart_items"].each do |item|

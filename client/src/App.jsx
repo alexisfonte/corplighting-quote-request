@@ -187,7 +187,6 @@ function App() {
         });
       }
     });
-    
   };
 
   const handleUpdateCart = (productId, quantity) => {
@@ -200,11 +199,19 @@ function App() {
     }).then((res) => {
       if (res.ok) {
         res.json().then((cart) => {
-          console.log(cart)
-          // setCart(cart.cart)
+          setCart(cart.cart.cart_items)
           getCart();
         });
       }
+    });
+  };
+
+  const handleRemoveFromCart = (productId) => {
+    fetch(`/api/cart/remove/${productId}`, { method: "DELETE" }).then((res) => {
+      res.json().then((data) => {
+        setCart(data.cart.cart_items)
+        getCart();
+      })
     });
   }
 
@@ -214,7 +221,7 @@ function App() {
     <div>
       <AppContext.Provider value={{ isLoading, setIsLoading }}>
         <UserContext.Provider
-          value={{ user, setUser, isLoggedIn, setIsLoggedIn, cart, setCart, handleAddToCart, handleUpdateCart }}
+          value={{ user, setUser, isLoggedIn, setIsLoggedIn, cart, setCart, handleAddToCart, handleUpdateCart, handleRemoveFromCart }}
         >
           <InventoryContext.Provider
             value={{

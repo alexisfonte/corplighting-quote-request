@@ -8,7 +8,7 @@ function classNames(...classes) {
 }
 
 function Contents() {
-  const {cart, setCart, handleUpdateCart} = useContext(UserContext);
+  const {cart, setCart, handleUpdateCart, handleRemoveFromCart} = useContext(UserContext);
   const [quantity, setQuantity] = useState(1)
   const [open, setOpen] = useState(false);
   const [show, setShow] = useState(false);
@@ -64,7 +64,7 @@ function Contents() {
                           <p className="hidden text-gray-500 sm:block">
                             Qty: {product.quantity}
                           </p>
-                          <div className={!product.editing && 'hidden'}>
+                          <div className={product.editing ? '' : 'hidden'}>
                           <QuantityInput quantity={quantity} setQuantity={setQuantity}/>
                           </div>
                         </div>
@@ -86,6 +86,7 @@ function Contents() {
                           <div className="flex border-l border-gray-300 pl-4">
                             <button
                               type="button"
+                              onClick={() => handleRemoveFromCart(product.item.id)}
                               className="text-sm font-medium text-indigo-600 hover:text-indigo-500"
                             >
                               Remove
