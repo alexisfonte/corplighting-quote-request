@@ -1,35 +1,16 @@
-import { Fragment } from "react";
-import {
-  MagnifyingGlassIcon,
-  ShoppingBagIcon,
-} from "@heroicons/react/24/outline";
+import { Fragment, useContext, useEffect } from "react";
+import { ShoppingBagIcon } from "@heroicons/react/24/outline";
 import { Popover, Transition } from "@headlessui/react";
-
-const products = [
-  {
-    id: 1,
-    name: "Throwback Hip Bag",
-    href: "#",
-    color: "Salmon",
-    imageSrc:
-      "https://tailwindui.com/img/ecommerce-images/shopping-cart-page-04-product-01.jpg",
-    imageAlt:
-      "Salmon orange fabric pouch with match zipper, gray zipper pull, and adjustable hip belt.",
-  },
-  {
-    id: 2,
-    name: "Medium Stuff Satchel",
-    href: "#",
-    color: "Blue",
-    imageSrc:
-      "https://tailwindui.com/img/ecommerce-images/shopping-cart-page-04-product-02.jpg",
-    imageAlt:
-      "Front of satchel with blue canvas body, black straps and handle, drawstring top, and front zipper pouch.",
-  },
-  // More products...
-];
+import { UserContext } from "../../App";
+import { Link } from "react-router-dom";
 
 function CartPopover() {
+  const { cart, setCart } = useContext(UserContext);
+
+  useEffect(() => {
+    console.log("reload");
+  }, [cart]);
+
   return (
     <Popover className="ml-4 flow-root text-sm lg:relative lg:ml-8">
       <Popover.Button className="group -m-2 flex items-center p-2">
@@ -38,7 +19,7 @@ function CartPopover() {
           aria-hidden="true"
         />
         <span className="ml-2 text-sm font-medium text-gray-700 group-hover:text-gray-800">
-          0
+          {cart.length}
         </span>
         <span className="sr-only">items in cart, view bag</span>
       </Popover.Button>
@@ -56,38 +37,38 @@ function CartPopover() {
 
           <form className="mx-auto max-w-2xl px-4">
             <ul role="list" className="divide-y divide-gray-200">
-              {products.map((product) => (
-                <li key={product.id} className="flex items-center py-6">
-                  <img
-                    src={product.imageSrc}
-                    alt={product.imageAlt}
-                    className="h-16 w-16 flex-none rounded-md border border-gray-200"
-                  />
-                  <div className="ml-4 flex-auto">
-                    <h3 className="font-medium text-gray-900">
-                      <a href={product.href}>{product.name}</a>
-                    </h3>
-                    <p className="text-gray-500">{product.color}</p>
-                  </div>
-                </li>
-              ))}
+              {cart.length > 0 &&
+                cart.map((product) => (
+                  <li key={product.item.id} className="flex items-center py-6">
+                    <Link
+                    className="flex"
+                      to={`/p/${encodeURIComponent(product.item.name)}?pid=${
+                        product.item.id
+                      }`}
+                    >
+                      <img
+                        src={product.item.image_id}
+                        alt={product.item.name}
+                        className="h-16 w-16 flex-none rounded-md border border-gray-200"
+                      />
+                      <div className="ml-4 flex-auto">
+                        <h3 className="font-medium text-gray-900">
+                          {product.item.name}
+                        </h3>
+                        <p className="text-gray-500">{product.quantity}</p>
+                      </div>
+                    </Link>
+                  </li>
+                ))}
             </ul>
 
-            <button
-              type="submit"
-              className="w-full rounded-md border border-transparent bg-indigo-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 focus:ring-offset-gray-50"
-            >
-              Checkout
-            </button>
-
-            <p className="mt-6 text-center">
-              <a
-                href="#"
-                className="text-sm font-medium text-indigo-600 hover:text-indigo-500"
+            <button className="w-full rounded-md border border-transparent bg-indigo-600 px-4 py-2 text-sm text-center font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 focus:ring-offset-gray-50">
+              <Link
+                to="/cart"
               >
                 View Shopping Bag
-              </a>
-            </p>
+              </Link>
+            </button>
           </form>
         </Popover.Panel>
       </Transition>

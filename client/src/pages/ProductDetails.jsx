@@ -18,7 +18,7 @@ import {
   XMarkIcon,
 } from "@heroicons/react/24/outline";
 import { StarIcon } from "@heroicons/react/20/solid";
-import { InventoryContext } from "../App";
+import { InventoryContext, UserContext } from "../App";
 import { Link, useLocation, useParams } from "react-router-dom";
 import QuantityInput from "../components/form/QuantityInput";
 import Nav from "../components/navbar/Nav";
@@ -32,8 +32,11 @@ function ProductDetails() {
   const location = useLocation();
   const queryParams = new URLSearchParams(location.search);
   const itemId = queryParams.get('pid')
+  const { handleAddToCart } = useContext(UserContext)
   const { getProduct, getSimilarProducts, product, similarProducts } = useContext(InventoryContext);
   const [open, setOpen] = useState(false);
+  const [quantity, setQuantity] = useState(1);
+
   console.log(product)
 
   useEffect(() => {
@@ -71,14 +74,14 @@ function ProductDetails() {
               </div>
             </div>
 
-            <form className="mt-6">
+            <form className="mt-6" onSubmit={(e) => handleAddToCart(e, itemId, quantity)}>
               <div className="mt-10 flex">
-                <QuantityInput/>
+                <QuantityInput quantity={quantity} setQuantity={setQuantity} />
                 <button
                   type="submit"
                   className="flex max-w-xs flex-1 items-center justify-center rounded-md border border-transparent bg-indigo-600 px-8 py-3 text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 focus:ring-offset-gray-50 sm:w-full"
                   >
-                  Add to bag
+                  Add to cart
                 </button>
               </div>
             </form>

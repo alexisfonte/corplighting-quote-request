@@ -33,7 +33,7 @@ function App() {
   const [categories, setCategories] = useState([]);
   const [subcategories, setSubcategories] = useState([]);
   const [quotes, setQuotes] = useState([]);
-  const [cart, setCart] = useState(null);
+  const [cart, setCart] = useState([]);
   const navigate = useNavigate();
 
   // CHECK TO SEE IF USER IS LOGGED IN
@@ -52,9 +52,26 @@ function App() {
         });
       }
       getCategories();
+      getCart();
       setIsLoading(false);
     });
   }, []);
+  
+  // GET CART SESSION
+  const getCart = () => {
+      fetch("/api/cart").then((res) => {
+        if (res.ok) {
+          res.json().then((cart) => {
+            setCart(cart.cart.cart_items)
+            console.log(cart.cart.cart_items.length)
+          });
+        } else {
+          res.json().then((data) => {
+            console.log(data);
+          });
+        }
+      });
+  }
 
   // IF USER IS LOGGED IN, GET EXISTING USER QUOTES
   // useEffect(() => {
@@ -153,13 +170,58 @@ function App() {
     });
   };
 
+  const handleAddToCart = (e, productId, quantity) => {
+    e.preventDefault(); 
+    
+    fetch(`/api/cart/add/${productId}`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        quantity: quantity
+      }),
+    }).then((res) => {
+      if (res.ok) {
+        res.json().then((cart) => {
+          setCart(cart.cart)
+          getCart();
+        });
+      }
+    });
+  };
+
+  const handleUpdateCart = (productId, quantity) => {
+    fetch(`/api/cart/update/${productId}`, {
+      method: "PATCH",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        quantity: quantity
+      }),
+    }).then((res) => {
+      if (res.ok) {
+        res.json().then((cart) => {
+          setCart(cart.cart.cart_items)
+          getCart();
+        });
+      }
+    });
+  };
+
+  const handleRemoveFromCart = (productId) => {
+    fetch(`/api/cart/remove/${productId}`, { method: "DELETE" }).then((res) => {
+      res.json().then((data) => {
+        setCart(data.cart.cart_items)
+        getCart();
+      })
+    });
+  }
+
   if (isLoggedIn === null || isLoading) return <Loading />;
 
   return (
     <div>
       <AppContext.Provider value={{ isLoading, setIsLoading }}>
         <UserContext.Provider
-          value={{ user, setUser, isLoggedIn, setIsLoggedIn }}
+          value={{ user, setUser, isLoggedIn, setIsLoggedIn, cart, setCart, handleAddToCart, handleUpdateCart, handleRemoveFromCart }}
         >
           <InventoryContext.Provider
             value={{

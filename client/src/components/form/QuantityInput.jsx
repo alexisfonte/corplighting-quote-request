@@ -1,8 +1,7 @@
 import { useState } from "react";
 import { PlusIcon, MinusIcon } from "@heroicons/react/20/solid";
 
-function QuantityInput() {
-  const [quantity, setQuantity] = useState(1);
+function QuantityInput({quantity, setQuantity}) {
 
   return (
     <span className="isolate inline-flex rounded-md shadow-sm">
