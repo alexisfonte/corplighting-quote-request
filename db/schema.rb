@@ -10,9 +10,19 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_04_25_044219) do
+ActiveRecord::Schema[7.0].define(version: 2023_05_02_182843) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "addresses", force: :cascade do |t|
+    t.string "line1"
+    t.string "line2"
+    t.string "city"
+    t.string "state"
+    t.string "zip_code"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
 
   create_table "cart_items", force: :cascade do |t|
     t.integer "item_id"
@@ -34,6 +44,15 @@ ActiveRecord::Schema[7.0].define(version: 2023_04_25_044219) do
     t.string "path"
     t.bigint "parent_category_id"
     t.boolean "customer_view"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "clients", force: :cascade do |t|
+    t.string "company"
+    t.string "phone_number"
+    t.integer "address_id"
+    t.integer "quote_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
@@ -74,6 +93,15 @@ ActiveRecord::Schema[7.0].define(version: 2023_04_25_044219) do
     t.string "name"
     t.string "uid"
     t.string "provider"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "venues", force: :cascade do |t|
+    t.string "name"
+    t.string "phone_number"
+    t.integer "address_id"
+    t.integer "quote_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end

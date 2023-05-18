@@ -1,7 +1,7 @@
 class Quote < ApplicationRecord
     belongs_to :user, required: true
-    belongs_to :client, required: true
-    belongs_to :venue, required: true
+    has_one :venue, required: true
+    has_one :client, required: true
 
     has_many :quote_items, dependent: :destroy
     has_many :items, through: :quote_items

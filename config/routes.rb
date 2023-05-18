@@ -1,4 +1,7 @@
 Rails.application.routes.draw do
+  resources :clients
+  resources :venues
+  resources :addresses
   resources :users, only: [:show, :create, :update]
   resources :quote_items, only: [:index, :show, :create, :update, :destroy]
   resources :quotes, only: [:index, :show, :create, :update]
