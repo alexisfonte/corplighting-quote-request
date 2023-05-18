@@ -228,6 +228,7 @@ DEPENDENCIES
   bcrypt (~> 3.1.7)
   byebug
   dotenv-rails
+  faraday
   json
   net-http
   omniauth

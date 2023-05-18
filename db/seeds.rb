@@ -1,9 +1,50 @@
-require 'rest-client'
+# require 'rest-client'
+require 'faraday'
+require 'base64'
+require 'csv'
 
 def api_key
      ENV["CLAV_FLEX_API_KEY"]
- end
+end
 
+conn = Faraday.new(
+    url: 'https://cla.flexrentalsolutions.com',
+    headers: { 'X-Auth-Token' => api_key }
+)
+
+params = {}
+
+response = conn.get('/f5/api/report/generate/91eddc36-ab80-4b12-8890-7557d5ef3c9d') do |req|
+    req.params['parameterSubmission'] = true
+    req.params['REPORT_FORMAT'] = 'csv'
+    req.params['REPORT_ORIENTATION'] = 'portrait'
+end
+
+if response.success?
+    inventory_data = Base64.decode64(response.body)
+
+    CSV.parse(inventory_data, headers: true) do |row|
+        puts row['Group Name']
+    end
+else
+    puts "Failed to fetch report"
+end
+
+# items = conn.get('/f5/api/report/generate/325c5822-2edc-4d19-9241-fbb5aef92920') do |req|
+#     req.params['parameterSubmission'] = true
+#     req.params['REPORT_FORMAT'] = 'csv'
+#     req.params['REPORT_ORIENTATION'] = 'portrait'
+# end
+
+# if items.success?
+#     item_data = Base64.decode64(items.body)
+
+#     CSV.parse(item_data, headers: true) do |row|
+#         puts row["Name"]
+#     end
+# else
+#     puts "Failed to fetch items"
+# end
 # Category.destroy_all
 # Item.destroy_all
 
@@ -37,13 +78,13 @@ def api_key
 # categories_dataset()
 
 
-def item_dataset
-    all_items = []
+# def item_dataset
+#     all_items = []
 
-    puts "Getting Inventory Worksheet..."
-        items = RestClient.get("https://cla.flexrentalsolutions.com/f5/api/inventory-worksheet?page=0&size=500", { 'X-Auth-Token' => api_key })
-        items_array = JSON.parse(items)
-    puts items_array
+#     puts "Getting Inventory Worksheet..."
+#         items = RestClient.get("https://cla.flexrentalsolutions.com/f5/api/inventory-worksheet?page=0&size=500", { 'X-Auth-Token' => api_key })
+#         items_array = JSON.parse(items)
+#     puts items_array
     # puts "Getting page 0 of #{items_array['totalPages']}..."
     #     items_array['content'].each do |item|
     #         all_items << item
@@ -79,5 +120,5 @@ def item_dataset
         #         end
         #     end
         # puts "Successfully seeded #{Item.count} items!"
-    end
-item_dataset()
+#     end
+# item_dataset()
